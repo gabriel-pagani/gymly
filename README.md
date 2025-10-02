@@ -39,6 +39,7 @@ npm run build
 none/
 ├── backend/
 │   ├── app/
+│   ├── build/
 │   ├── project/
 │   ├── venv/
 │   ├── db.sqlite3
