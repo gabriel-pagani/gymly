@@ -2,35 +2,35 @@
 
 # Installation and Configuration (Linux/Mac)
 ### Start
-```bash
+```
 git clone https://github.com/gabriel-pagani/none.git && cd none/
 ```
 
 ### Backend (Django)
-```bash
+```
 cd backend/
 ```
-```bash
+```
 python3 -m venv venv && source venv/bin/activate
 ```
-```bash
+```
 pip install -r requirements.txt
 ```
-```bash
+```
 python manage.py migrate
 ```
-```bash
+```
 python manage.py createsuperuser
 ```
 
 ### Frontend (React)
-```bash
+```
 cd ../frontend/
 ```
-```bash
+```
 npm install
 ```
-```bash
+```
 npm run build
 ```
 
