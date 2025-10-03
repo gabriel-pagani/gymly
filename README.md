@@ -3,7 +3,7 @@
 # Installation and Configuration (Linux/Mac)
 ### Start
 ```
-git clone https://github.com/gabriel-pagani/none.git && cd none/
+git clone https://github.com/gabriel-pagani/gymly.git && cd gymly/
 ```
 
 ### Backend (Django)
