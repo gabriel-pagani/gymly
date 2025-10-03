@@ -1,5 +1,3 @@
-# Description
-
 # Installation and Configuration (Linux/Mac)
 ### Start
 ```
@@ -33,8 +31,6 @@ npm install
 ```
 npm run build
 ```
-
-# How to Use
 
 # License
 See the [LICENSE](https://github.com/gabriel-pagani/none/blob/main/LICENSE) file for more details.
