@@ -33,7 +33,7 @@ npm run build
 ```
 
 # License
-See the [LICENSE](https://github.com/gabriel-pagani/none/blob/main/LICENSE) file for more details.
+See the [LICENSE](https://github.com/gabriel-pagani/gymly/blob/main/LICENSE) file for more details.
 
 # Contact Information
 Email: gabrielpaganidesouza@gmail.com
