@@ -52,3 +52,27 @@ class Contracts(models.Model):
     class Meta:
         verbose_name = 'Contract'
         verbose_name_plural = 'Contracts'
+
+
+class Payments(models.Model): 
+    STATUS = [ 
+        ("P", "Pending"), 
+        ("S", "Paid"),
+        ("L", "Late"), 
+        ("C", "Canceled"), 
+        ("R", "Refunded"), 
+    ]
+
+    contract = models.ForeignKey(Contracts, on_delete=models.PROTECT, limit_choices_to=Q(status="A") | Q(status="P"), related_name="payments") 
+    payment_amount = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)]) 
+    expected_date = models.DateField() 
+    payment_date = models.DateField(blank=True, null=True) 
+    status = models.CharField(max_length=1, choices=STATUS, default="P")
+    observations = models.TextField(blank=True, null=True) 
+    
+    def __str__(self): 
+        return f"{self.expected_date} - {self.payment_date}" 
+    
+    class Meta: 
+        verbose_name = 'Payment' 
+        verbose_name_plural = 'Payments'
