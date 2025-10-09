@@ -4,6 +4,36 @@ from .validators import only_numbers, valid_cpf, valid_phone, valid_zipcode
 
 
 class Users(AbstractUser):
+    STATES = [
+        ('AC', 'Acre'),
+        ('AL', 'Alagoas'),
+        ('AP', 'Amapá'),
+        ('AM', 'Amazonas'),
+        ('BA', 'Bahia'),
+        ('CE', 'Ceará'),
+        ('DF', 'Distrito Federal'),
+        ('ES', 'Espírito Santo'),
+        ('GO', 'Goiás'),
+        ('MA', 'Maranhão'),
+        ('MT', 'Mato Grosso'),
+        ('MS', 'Mato Grosso do Sul'),
+        ('MG', 'Minas Gerais'),
+        ('PA', 'Pará'),
+        ('PB', 'Paraíba'),
+        ('PR', 'Paraná'),
+        ('PE', 'Pernambuco'),
+        ('PI', 'Piauí'),
+        ('RJ', 'Rio de Janeiro'),
+        ('RN', 'Rio Grande do Norte'),
+        ('RS', 'Rio Grande do Sul'),
+        ('RO', 'Rondônia'),
+        ('RR', 'Roraima'),
+        ('SC', 'Santa Catarina'),
+        ('SP', 'São Paulo'),
+        ('SE', 'Sergipe'),
+        ('TO', 'Tocantins'),
+    ]
+    
     email = models.EmailField(unique=True, blank=False, null=False)
     cpf = models.CharField(max_length=11, blank=True, null=True, validators=[only_numbers, valid_cpf])
     phone = models.CharField(max_length=11, blank=True, null=True, validators=[only_numbers, valid_phone])
@@ -13,7 +43,7 @@ class Users(AbstractUser):
     complement = models.CharField(max_length=200, blank=True, null=True)
     neighborhood = models.CharField(max_length=100, blank=True, null=True)
     city = models.CharField(max_length=100, blank=True, null=True)
-    state = models.CharField(max_length=100, blank=True, null=True)
+    state = models.CharField(max_length=2, blank=True, null=True, choices=STATES)
     zip_code = models.CharField(max_length=8, blank=True, null=True, validators=[only_numbers, valid_zipcode])
     observations = models.TextField(blank=True, null=True)
     

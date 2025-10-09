@@ -23,7 +23,7 @@ class UsersAdmin(UserAdmin):
             'classes': ('collapse',)
         }),
         ('Address', {
-            'fields': ('state', 'city', 'neighborhood', 'street', 'number', 'complement', 'zip_code',),
+            'fields': ('zip_code', 'state', 'city', 'neighborhood', 'street', 'number', 'complement',),
             'classes': ('collapse',)
         }),
         ('Permissions', {
