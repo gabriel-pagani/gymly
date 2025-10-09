@@ -4,6 +4,14 @@
 git clone https://github.com/gabriel-pagani/gymly.git && cd gymly/
 ```
 
+### Frontend (React)
+```
+cd ../frontend/
+```
+```
+npm install && npm run build
+```
+
 ### Backend (Django)
 ```
 cd backend/
@@ -19,17 +27,6 @@ python manage.py migrate
 ```
 ```
 python manage.py createsuperuser
-```
-
-### Frontend (React)
-```
-cd ../frontend/
-```
-```
-npm install
-```
-```
-npm run build
 ```
 
 # License
