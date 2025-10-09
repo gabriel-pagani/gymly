@@ -102,6 +102,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ORIGIN_ALLOW_ALL = True
 
+AUTH_USER_MODEL = "app.Users"
+
 try:
     from project.local_settings import *
 except ImportError:
