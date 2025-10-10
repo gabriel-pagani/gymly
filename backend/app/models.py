@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from .validators import only_numbers, valid_cpf, valid_phone, valid_zipcode
+from .validators import valid_cpf, valid_phone, valid_zipcode
 
 
 class Users(AbstractUser):
@@ -35,8 +35,8 @@ class Users(AbstractUser):
     ]
     
     email = models.EmailField(unique=True, blank=False, null=False)
-    cpf = models.CharField(max_length=11, blank=True, null=True, validators=[only_numbers, valid_cpf])
-    phone = models.CharField(max_length=11, blank=True, null=True, validators=[only_numbers, valid_phone])
+    cpf = models.CharField(max_length=11, blank=True, null=True, validators=[valid_cpf])
+    phone = models.CharField(max_length=11, blank=True, null=True, validators=[valid_phone])
     date_birth = models.DateField(blank=True, null=True)
     street = models.CharField(max_length=100, blank=True, null=True)
     number = models.CharField(max_length=25, blank=True, null=True)
@@ -44,7 +44,7 @@ class Users(AbstractUser):
     neighborhood = models.CharField(max_length=100, blank=True, null=True)
     city = models.CharField(max_length=100, blank=True, null=True)
     state = models.CharField(max_length=2, blank=True, null=True, choices=STATES)
-    zip_code = models.CharField(max_length=8, blank=True, null=True, validators=[only_numbers, valid_zipcode])
+    zip_code = models.CharField(max_length=8, blank=True, null=True, validators=[valid_zipcode])
     observations = models.TextField(blank=True, null=True)
     
     USERNAME_FIELD = 'email'
