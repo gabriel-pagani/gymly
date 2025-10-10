@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 
 def valid_cpf(value):
     if len(value) != 11 or value == value[0] * 11 or not value.isdigit():
-        raise ValidationError('Invalid CPF.')
+        raise ValidationError('Enter a valid CPF.')
 
     sum1 = digit1 = 0
     for i in range(9):
@@ -20,7 +20,7 @@ def valid_cpf(value):
         digit2 = 0
 
     if int(value[9]) != digit1 or int(value[10]) != digit2:
-        raise ValidationError('Invalid CPF.')
+        raise ValidationError('Enter a valid CPF.')
 
 
 def valid_phone(value):
