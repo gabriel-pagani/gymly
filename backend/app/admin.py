@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import Users, Plans
+from .models import Users, Plans, Contracts
 
 
 @admin.register(Users)
@@ -52,3 +52,11 @@ class PlansAdmin(admin.ModelAdmin):
     search_fields = ('title', 'observations',)
     list_filter = ('payment_frequency', 'is_active', 'is_recurrent',)
     ordering = ('title',)
+
+
+@admin.register(Contracts)
+class ContractsAdmin(admin.ModelAdmin):
+    list_display = ('member', 'plan', 'start_date', 'finish_date', 'status',)
+    search_fields = ('observations',)
+    list_filter = ('status',)
+    ordering = ('member',)

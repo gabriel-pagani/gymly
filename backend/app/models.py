@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator
+from django.core.exceptions import ValidationError
+from datetime import timedelta
 from .validators import valid_cpf, valid_phone, valid_zipcode
 
 
@@ -76,3 +78,40 @@ class Plans(models.Model):
     class Meta:
         verbose_name = 'Plan'
         verbose_name_plural = 'Plans'
+
+
+class Contracts(models.Model):
+    STATUS = [
+        ("D", "Draft"),
+        ("A", "Active"),
+        ("P", "Pending"),
+        ("L", "Locked"),
+        ("C", "Canceled"),        
+        ("F", "Finished"),
+    ]
+
+    member = models.ForeignKey(Users, on_delete=models.PROTECT, limit_choices_to={'groups__name': 'Members', 'is_active': True}, related_name="contracts")
+    plan = models.ForeignKey(Plans, on_delete=models.PROTECT, limit_choices_to={"is_active": True}, related_name="subscriptions")
+    start_date = models.DateField()
+    finish_date = models.DateField(blank=True, null=True)
+    status = models.CharField(max_length=1, choices=STATUS, default="D")
+    observations = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.member} - {self.plan}"
+
+    def clean(self):
+        if Contracts.objects.filter(member=self.member).exclude(status="F").exclude(pk=self.pk).exists():
+            raise ValidationError({"member": "There is already an active contract for this member."})
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        if self.plan.is_recurrent:
+            self.finish_date = None
+        else:
+            self.finish_date = self.start_date + timedelta(days=self.plan.payment_frequency)
+        super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = 'Contract'
+        verbose_name_plural = 'Contracts'
