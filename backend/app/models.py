@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator
 from django.core.exceptions import ValidationError
@@ -98,7 +99,7 @@ class Contracts(models.Model):
     observations = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return f"{self.member} - {self.plan}"
+        return f"{self.member} | {self.plan}"
 
     def clean(self):
         if Contracts.objects.filter(member=self.member).exclude(status="F").exclude(pk=self.pk).exists():
@@ -115,3 +116,32 @@ class Contracts(models.Model):
     class Meta:
         verbose_name = 'Contract'
         verbose_name_plural = 'Contracts'
+
+
+class Payments(models.Model): 
+    STATUS = [ 
+        ("P", "Pending"),
+        ("L", "Late"), 
+        ("C", "Canceled"), 
+        ("S", "Paid"),
+        ("R", "Refunded"), 
+    ]
+
+    contract = models.ForeignKey(Contracts, on_delete=models.PROTECT, limit_choices_to=Q(status="A") | Q(status="P"), related_name="payments")
+    payment_amount = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)], blank=True, null=True)
+    expected_date = models.DateField() 
+    payment_date = models.DateField(blank=True, null=True) 
+    status = models.CharField(max_length=1, choices=STATUS, default="P")
+    observations = models.TextField(blank=True, null=True)
+    
+    def __str__(self): 
+        return f"R$ {self.payment_amount} | {self.payment_date if self.payment_date else self.expected_date}"
+
+    def save(self, *args, **kwargs):
+        if not self.payment_amount:
+            self.payment_amount = self.contract.plan.payment_amount
+        super().save(*args, **kwargs)
+    
+    class Meta: 
+        verbose_name = 'Payment' 
+        verbose_name_plural = 'Payments'

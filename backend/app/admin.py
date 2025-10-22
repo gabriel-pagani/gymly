@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import Users, Plans, Contracts
+from .models import Users, Plans, Contracts, Payments
 
 
 @admin.register(Users)
@@ -60,3 +60,11 @@ class ContractsAdmin(admin.ModelAdmin):
     search_fields = ('observations',)
     list_filter = ('status',)
     ordering = ('member',)
+
+
+@admin.register(Payments)
+class PaymentsAdmin(admin.ModelAdmin):
+    list_display = ('payment_amount', 'expected_date', 'payment_date', 'status',)
+    search_fields = ('observations',)
+    list_filter = ('status',)
+    ordering = ('-payment_date',)
