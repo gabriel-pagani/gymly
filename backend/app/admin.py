@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import Users
+from .models import Users, Plans
 
 
 @admin.register(Users)
@@ -44,3 +44,11 @@ class UsersAdmin(UserAdmin):
             'fields': ('email', 'password1', 'password2',),
         }),
     )
+
+
+@admin.register(Plans)
+class PlansAdmin(admin.ModelAdmin):
+    list_display = ('title', 'payment_amount', 'payment_frequency', 'is_recurrent', 'is_active',)
+    search_fields = ('title', 'observations',)
+    list_filter = ('payment_frequency', 'is_active', 'is_recurrent',)
+    ordering = ('title',)
