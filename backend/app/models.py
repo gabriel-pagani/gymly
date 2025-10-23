@@ -102,7 +102,7 @@ class Contracts(models.Model):
         return f"{self.member} | {self.plan}"
 
     def clean(self):
-        if Contracts.objects.filter(member=self.member).exclude(status="F").exclude(pk=self.pk).exists():
+        if Contracts.objects.filter(member=self.member).exclude(status="F").exclude(status="C").exclude(status="D").exclude(pk=self.pk).exists():
             raise ValidationError({"member": "There is already an active contract for this member."})
 
     def save(self, *args, **kwargs):
