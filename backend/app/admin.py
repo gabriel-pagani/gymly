@@ -6,7 +6,7 @@ from .models import Users, Plans, Contracts, Payments
 
 @admin.register(Users)
 class UsersAdmin(UserAdmin):
-    list_display = ('email', 'first_name', 'last_name', 'last_login', 'is_active',)
+    list_display = ('email', 'first_name', 'last_name', 'last_login', 'date_joined', 'is_staff', 'is_superuser', 'is_active',)
     search_fields = ('email', 'first_name', 'last_name', 'observations',)
     list_filter = ('is_active', 'is_staff', 'is_superuser', 'groups',)
     filter_horizontal = ('groups', 'user_permissions',)
