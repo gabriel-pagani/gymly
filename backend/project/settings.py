@@ -10,7 +10,13 @@ SECRET_KEY = 'django-insecure-3vmbe-wj-x3ln&+e+i0=k7^yk2#q*=7(=*m7*$xfg3o66o07fr
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'gymly.gabriel-pagani.space',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://gymly.gabriel-pagani.space",
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
