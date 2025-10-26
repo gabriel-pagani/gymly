@@ -1,4 +1,4 @@
-configure-project:
+build-project:
 	cd frontend/ && \
 	rm -rf node_modules && \
 	npm install && \
@@ -11,8 +11,7 @@ configure-project:
 	rm -f db.sqlite3 && \
 	python manage.py migrate && \
 	echo "from app.models import Users; Users.objects.create_superuser(email='admin@email.com', username='admin', password='1234')" | python manage.py shell && \
-	echo "from app.models import Users; Users.objects.create_user(email='user@email.com', username='user', password='1234')" | python manage.py shell && \
-	clear
+	echo "from app.models import Users; Users.objects.create_user(email='user@email.com', username='user', password='1234')" | python manage.py shell
 
 start-backend: 
 	cd backend/ && \
