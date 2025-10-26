@@ -9,7 +9,7 @@ cd gymly/
 
 ### Frontend (React)
 ```
-cd ../frontend/
+cd frontend/
 ```
 ```
 npm install
