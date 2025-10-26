@@ -1,4 +1,4 @@
-build-project:
+build:
 	cd frontend/ && \
 	rm -rf node_modules && \
 	npm install && \
