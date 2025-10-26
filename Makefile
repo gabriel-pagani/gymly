@@ -1,0 +1,13 @@
+build-project:
+	cd frontend/ && \
+	rm -rf node_modules && \
+	npm install && \
+	npm run build && \
+	cd ../backend/ && \
+	rm -rf venv && \
+	python3 -m venv venv && \
+	. venv/bin/activate && \
+	pip install -r requirements.txt && \
+	rm -f db.sqlite3 && \
+	python manage.py migrate && \
+	python manage.py createsuperuser

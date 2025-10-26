@@ -1,7 +1,10 @@
 # Installation and Configuration (Linux/Mac)
 ### Start
 ```
-git clone https://github.com/gabriel-pagani/gymly.git && cd gymly/
+git clone https://github.com/gabriel-pagani/gymly.git
+```
+```
+cd gymly/
 ```
 
 ### Frontend (React)
@@ -9,15 +12,21 @@ git clone https://github.com/gabriel-pagani/gymly.git && cd gymly/
 cd ../frontend/
 ```
 ```
-npm install && npm run build
+npm install
+```
+```
+npm run build
 ```
 
 ### Backend (Django)
 ```
-cd backend/
+cd ../backend/
 ```
 ```
-python3 -m venv venv && source venv/bin/activate
+python3 -m venv venv
+```
+```
+source venv/bin/activate
 ```
 ```
 pip install -r requirements.txt
@@ -34,4 +43,3 @@ See the [LICENSE](https://github.com/gabriel-pagani/gymly/blob/main/LICENSE) fil
 
 # Contact Information
 Email: gabrielpaganidesouza@gmail.com
-
