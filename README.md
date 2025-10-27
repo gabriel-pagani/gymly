@@ -23,6 +23,9 @@ npm run build
 cd ../backend/
 ```
 ```
+touch project/local_settings.py
+```
+```
 python3 -m venv venv
 ```
 ```
