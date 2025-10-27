@@ -10,6 +10,7 @@ build-project:
 	npm install && \
 	npm run build && \
 	cd ../backend/ && \
+	touch project/local_settings.py && \
 	rm -rf venv && \
 	python3 -m venv venv && \
 	$(ACTIVATE) && \
