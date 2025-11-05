@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import Users
+from .models import Users, Dashboards
 
 
 @admin.register(Users)
@@ -44,3 +44,11 @@ class UsersAdmin(UserAdmin):
             'fields': ('username', 'password1', 'password2',),
         }),
     )
+
+
+@admin.register(Dashboards)
+class DashboardAdmin(admin.ModelAdmin):
+    list_display = ('title', 'sector', 'status')
+    search_fields = ('title', 'sector')
+    filter_horizontal = ('users', 'groups', 'fav_by')
+    list_filter = ('status', 'sector', 'groups', 'users', 'fav_by')

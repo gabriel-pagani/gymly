@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.conf import settings
+from django.contrib.auth.models import AbstractUser, Group
 from .validators import valid_cpf, valid_phone, valid_zipcode
 
 
@@ -46,3 +47,68 @@ class Users(AbstractUser):
     state = models.CharField(max_length=2, blank=True, null=True, choices=STATES)
     zip_code = models.CharField(max_length=8, blank=True, null=True, validators=[valid_zipcode])
     observations = models.TextField(blank=True, null=True)
+
+
+class Dashboards(models.Model):
+    SECTORS = [
+        ('Almoxarifado', 'Almoxarifado'),
+        ('Comercial', 'Comercial'),
+        ('Controle', 'Controle'),
+        ('Compras', 'Compras'),
+        ('Contabilidade', 'Contabilidade'),
+        ('Custos', 'Custos'),
+        ('Diretoria', 'Diretoria'),
+        ('Engenharia', 'Engenharia'),
+        ('Financeiro', 'Financeiro'),
+        ('Fiscal', 'Fiscal'),
+        ('Gestão de Pessoas', 'Gestão de Pessoas'),
+        ('Gestão Industrial', 'Gestão Industrial'),
+        ('Industria de Apontamento', 'Industria de Apontamento'),
+        ('Industria de Eletrônicos', 'Industria de Eletrônicos'),
+        ('Industria de Esferas', 'Industria de Esferas'),
+        ('Industria Metalúrgica', 'Industria Metalúrgica'),
+        ('Industria de Placas', 'Industria de Placas'),
+        ('Industria de Tachas', 'Industria de Tachas'),
+        ('Industria de Tintas', 'Industria de Tintas'),
+        ('Jurídico', 'Jurídico'),
+        ('Licitação', 'Licitação'),
+        ('Logística', 'Logística'),
+        ('Manutenção', 'Manutenção'),
+        ('Marketing', 'Marketing'),
+        ('Monitoramentos', 'Monitoramentos'),
+        ('Obras', 'Obras'),
+        ('Projetos', 'Projetos'),
+        ('Qualidade', 'Qualidade'),
+        ('Recebimentos', 'Recebimentos'),
+        ('Recursos Humanos', 'Recursos Humanos'),
+        ('Secretaria', 'Secretaria'),
+        ('Segurança do Trabalho', 'Segurança do Trabalho'),
+        ('Tecnologia', 'Tecnologia'),
+        ('Trânsito', 'Trânsito'),
+    ]
+
+    STATUS = [
+        ('D', 'Em Desenvolvimento'),
+        ('M', 'Em Manutenção'),
+        ('F', 'Em Funcionamento'),
+    ]
+
+    title = models.CharField(max_length=150)
+    sector = models.CharField(max_length=150, choices=SECTORS)
+    metabase_code = models.IntegerField(blank=True, null=True)
+    powerbi_url = models.CharField(blank=True, null=True)
+    status = models.CharField(max_length=1, choices=STATUS, default="D")
+    groups = models.ManyToManyField(Group, related_name='dashboards', blank=True)
+    users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='dashboards', blank=True)
+    fav_by = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='favorited_dashboards', blank=True)
+
+    def __str__(self) -> str:
+        return self.title
+
+    class Meta:
+        verbose_name = 'Dashboard'
+        verbose_name_plural = 'Dashboards'
+        ordering = ['sector', 'title']
+        permissions = [
+            ("view_all_dashboards", "Can view all dashboards"),
+        ]
