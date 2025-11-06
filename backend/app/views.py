@@ -36,11 +36,14 @@ class DashboardsViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['get'], url_path='favorite')
     def favorite(self, request, pk=None):
         user = request.user
-        
-        queryset = self.get_queryset()
+
         try:
-            dashboard = queryset.get(pk=pk)
+            dashboard = Dashboards.objects.get(pk=pk)
         except Dashboards.DoesNotExist:
+            return Response({'detail': 'No Dashboards matches the given query.'}, status=status.HTTP_404_NOT_FOUND)
+
+        queryset = self.get_queryset()
+        if not queryset.filter(pk=pk).exists():
             return Response({'detail': 'You do not have permission to perform this action.'}, status=status.HTTP_403_FORBIDDEN)
         
         if dashboard.fav_by.filter(id=user.id).exists():
