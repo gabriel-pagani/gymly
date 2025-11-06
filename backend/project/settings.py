@@ -13,13 +13,13 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
-    'dashboards-center.gabriel-pagani.space',
+    'dashboards-portal.gabriel-pagani.space',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1',
     'http://localhost',
-    'https://dashboards-center.gabriel-pagani.space',
+    'https://dashboards-portal.gabriel-pagani.space',
 ]
 
 INSTALLED_APPS = [
