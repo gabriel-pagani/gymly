@@ -1,8 +1,8 @@
 import React from "react";
 import "./styles.css";
 
-function Home() {
+function Sidebar() {
   return <></>;
 }
 
-export default Home;
+export default Sidebar;
