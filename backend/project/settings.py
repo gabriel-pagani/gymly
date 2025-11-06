@@ -89,8 +89,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
+    'django_auth_ldap.backend.LDAPBackend',
     'app.backends.EmailModelBackend',
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 LANGUAGE_CODE = 'en-us'
