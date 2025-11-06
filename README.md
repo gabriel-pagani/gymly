@@ -1,10 +1,10 @@
 # Installation and Configuration (Linux/Mac)
 ### Start
 ```
-git clone https://github.com/gabriel-pagani/dashboards-center.git
+git clone https://github.com/gabriel-pagani/dashboards-portal.git
 ```
 ```
-cd dashboards-center/
+cd dashboards-portal/
 ```
 
 ### Frontend (React)
@@ -42,7 +42,7 @@ python manage.py createsuperuser
 ```
 
 # License
-See the [LICENSE](https://github.com/gabriel-pagani/dashboards-center/blob/main/LICENSE) file for more details.
+See the [LICENSE](https://github.com/gabriel-pagani/dashboards-portal/blob/main/LICENSE) file for more details.
 
 # Contact Information
 Email: gabrielpaganidesouza@gmail.com
