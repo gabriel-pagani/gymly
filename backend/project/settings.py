@@ -13,7 +13,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
-    'gymly.gabriel-pagani.space',
+    'dashboards-center.gabriel-pagani.space',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
