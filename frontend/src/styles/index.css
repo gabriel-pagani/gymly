@@ -1,6 +1,5 @@
 #root {
   display: flex;
-  font-family: "Roboto Condensed", sans-serif;
   min-height: 100vh;
   margin: 0;
 }
