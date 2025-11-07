@@ -1,8 +1,8 @@
 import React from "react";
-import "./styles.css";
+import "../../styles/sidebar.css";
 
 function Sidebar() {
-  return <div></div>;
+  return <div id="sidebar"></div>;
 }
 
 export default Sidebar;

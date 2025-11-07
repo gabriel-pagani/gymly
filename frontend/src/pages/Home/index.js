@@ -1,12 +1,12 @@
 import React from "react";
-import "./styles.css";
+import "../../styles/home.css";
 import Sidebar from "../../components/Sidebar";
 
 function Home() {
   return (
     <>
       <Sidebar />
-      <iframe title="Dashboard" src="" />
+      <iframe />
     </>
   );
 }

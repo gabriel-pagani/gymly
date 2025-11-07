@@ -1,0 +1,7 @@
+#sidebar {
+  width: 20vw;
+  flex: 0 0 20vw;
+  height: 100vh;
+  position: relative;
+  background-color: #1F2327;
+}
