@@ -38,8 +38,26 @@ class DashboardsViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'])
     def sectors(self, request):
         queryset = self.get_queryset().order_by('sector', 'title')
-
+        user = request.user
         sectors = OrderedDict()
+
+        favorited_dashboards = queryset.filter(fav_by=user).order_by('title')
+        if favorited_dashboards.exists():
+            sectors['Favoritos'] = []
+            for dashboard_data in favorited_dashboards:
+                url = None
+                if dashboard_data.powerbi_url:
+                    url = dashboard_data.powerbi_url
+                elif dashboard_data.metabase_code:
+                    url = generate_dashboard_url(dashboard_data.metabase_code)
+
+                dashboard = {
+                    'id': dashboard_data.id,
+                    'title': dashboard_data.title,
+                    'url': url,
+                }
+                sectors['Favoritos'].append(dashboard)
+
         for dashboard_data in queryset:
             sector = dashboard_data.sector
             if sector not in sectors:
