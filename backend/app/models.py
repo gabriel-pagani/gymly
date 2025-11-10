@@ -93,7 +93,7 @@ class Dashboards(models.Model):
         ('F', 'Em Funcionamento'),
     ]
 
-    title = models.CharField(max_length=150)
+    title = models.CharField(max_length=150, unique=True)
     sector = models.CharField(max_length=150, choices=SECTORS)
     metabase_code = models.IntegerField(blank=True, null=True)
     powerbi_url = models.CharField(blank=True, null=True)
