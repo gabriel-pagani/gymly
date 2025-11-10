@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser, Group
+from django.core.exceptions import ValidationError
 from .validators import valid_cpf, valid_phone, valid_zipcode
 
 
@@ -101,6 +102,12 @@ class Dashboards(models.Model):
     groups = models.ManyToManyField(Group, related_name='dashboards', blank=True)
     users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='dashboards', blank=True)
     fav_by = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='favorited_dashboards', blank=True)
+
+    def clean(self):
+        if self.metabase_code and self.powerbi_url:
+            raise ValidationError(
+                'Fill in only the "Metabase code" or the "Powerbi url" field.'
+            )
 
     def __str__(self) -> str:
         return self.title
