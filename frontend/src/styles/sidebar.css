@@ -10,8 +10,7 @@
 }
 
 #sidebar .divider {
-  height: 1px;
-  margin: 12px 0;
+  height: 0.1vh;
   background-color: #4B4B4B;
 }
 
