@@ -7,6 +7,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
 from collections import OrderedDict
+from .utils.metabase import generate_dashboard_url
 
 
 class UsersViewSet(viewsets.ModelViewSet):
@@ -44,9 +45,16 @@ class DashboardsViewSet(viewsets.ModelViewSet):
             if sector not in sectors:
                 sectors[sector] = []
 
+            url = None
+            if dashboard_data.powerbi_url:
+                url = dashboard_data.powerbi_url
+            elif dashboard_data.metabase_code:
+                url = generate_dashboard_url(dashboard_data.metabase_code)
+
             dashboard = {
                 'id': dashboard_data.id,
                 'title': dashboard_data.title,
+                'url': url,
             }
             sectors[sector].append(dashboard)
 
