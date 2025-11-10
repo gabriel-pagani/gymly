@@ -1,7 +1,7 @@
 ifeq ($(OS),Windows_NT)
-	ACTIVATE = . venv/Scripts/activate
+	FOLDER = Scripts
 else
-	ACTIVATE = . venv/bin/activate
+	FOLDER = bin
 endif
 
 build-project:
@@ -13,7 +13,8 @@ build-project:
 	touch project/local_settings.py && \
 	rm -rf venv && \
 	python3 -m venv venv && \
-	$(ACTIVATE) && \
+	. venv/$(FOLDER)/activate && \
+	python -m pip install --upgrade pip && \
 	pip install -r requirements.txt && \
 	rm -f db.sqlite3 && \
 	python manage.py migrate && \
@@ -22,7 +23,7 @@ build-project:
 
 start-backend: 
 	cd backend/ && \
-	$(ACTIVATE) && \
+	. venv/$(FOLDER)/activate && \
 	python manage.py runserver
 
 start-frontend: 
