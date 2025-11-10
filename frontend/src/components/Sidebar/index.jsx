@@ -1,15 +1,22 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/sidebar.css";
 
-const sectorsData = [
-  { id: "sector-1", dashboards: ["dash-1-1", "dash-1-2"] },
-  { id: "sector-2", dashboards: ["dash-2-1", "dash-2-2"] },
-  { id: "sector-3", dashboards: ["dash-3-1", "dash-3-2"] },
-];
-
-const menuItemsData = ["item-1", "item-2"];
-
 function Sidebar() {
+  const [sectors, setSectors] = useState([]);
+  const menuItemsData = ["Profile", "Settings", "Logout"];
+
+  useEffect(() => {
+    fetch("/api/dashboards/sectors/")
+      .then((response) => response.json())
+      .then((data) => {
+        const sectorsArray = Object.keys(data).map((sector) => ({
+          id: sector,
+          dashboards: data[sector],
+        }));
+        setSectors(sectorsArray);
+      });
+  }, []);
+
   return (
     <aside id="sidebar">
       <header id="top">
@@ -25,13 +32,13 @@ function Sidebar() {
       <nav id="menu">
         <div id="search-bar"></div>
         <ul id="sectors-list">
-          {sectorsData.map((sector) => (
+          {sectors.map((sector) => (
             <li key={sector.id} className="sector">
               {sector.id}
               <ul className="dashboards-list">
                 {sector.dashboards.map((dashboard) => (
-                  <li key={dashboard} className="dashboard">
-                    {dashboard}
+                  <li key={dashboard.id} className="dashboard">
+                    {dashboard.title}
                   </li>
                 ))}
               </ul>
