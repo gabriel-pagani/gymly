@@ -29,3 +29,7 @@
 #bottom {
   flex: 0 0 15vh;
 }
+
+#search-bar {
+  font-size: 2vh;
+}

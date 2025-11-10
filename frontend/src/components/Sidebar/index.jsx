@@ -30,7 +30,9 @@ function Sidebar() {
       <div className="divider" />
 
       <nav id="menu">
-        <div id="search-bar"></div>
+        <div id="search-bar">
+          <input type="text" placeholder="Pesquise por Dashboards aqui ..."/>
+        </div>
         <ul id="sectors-list">
           {sectors.map((sector) => (
             <li key={sector.id} className="sector">
