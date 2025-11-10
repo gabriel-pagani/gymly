@@ -6,7 +6,7 @@ function Home() {
   return (
     <>
       <Sidebar />
-      <iframe />
+      <iframe id="dashboard"/>
     </>
   );
 }
