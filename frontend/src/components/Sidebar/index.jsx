@@ -3,7 +3,7 @@ import "../../styles/sidebar.css";
 
 function Sidebar() {
   const [sectors, setSectors] = useState([]);
-  const menuItemsData = ["Profile", "Settings", "Logout"];
+  const menuItemsData = ["Portal de Administração", "Sair"];
 
   useEffect(() => {
     fetch("/api/dashboards/sectors/")
@@ -36,11 +36,13 @@ function Sidebar() {
             <li key={sector.id} className="sector">
               {sector.id}
               <ul className="dashboards-list">
-                {sector.dashboards.map((dashboard) => (
-                  <li key={dashboard.id} className="dashboard">
-                    {dashboard.title}
-                  </li>
-                ))}
+                {Array.isArray(sector.dashboards) ? (
+                  sector.dashboards.map((dashboard) => (
+                    <li key={dashboard.id} className="dashboard">
+                      {dashboard.title}
+                    </li>
+                  ))
+                ) : null}
               </ul>
             </li>
           ))}
