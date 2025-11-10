@@ -5,7 +5,9 @@ function Sidebar() {
   return (
     <div id="sidebar">
       <div id="top"></div>
+      <div className="divider" />
       <nav id="menu"></nav>
+      <div className="divider" />
       <div id="bottom"></div>
     </div>
   );
