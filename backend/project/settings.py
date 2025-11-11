@@ -111,6 +111,7 @@ USE_TZ = True
 
 STATICFILES_DIRS = [
     BASE_DIR / 'build/static',
+    BASE_DIR / 'build',
 ]
 
 STATIC_URL = 'static/'
