@@ -1,4 +1,4 @@
-from rest_framework.renderers import BrowsableAPIRenderer
+from rest_framework.renderers import BrowsableAPIRenderer, JSONRenderer
 
 class StaffBrowsableAPIRenderer(BrowsableAPIRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
@@ -7,4 +7,4 @@ class StaffBrowsableAPIRenderer(BrowsableAPIRenderer):
 
         if user and user.is_staff:
             return super().render(data, accepted_media_type, renderer_context)
-        return None
+        return JSONRenderer().render(data, accepted_media_type, renderer_context)
