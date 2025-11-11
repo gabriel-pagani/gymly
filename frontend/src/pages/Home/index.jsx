@@ -6,7 +6,11 @@ function Home() {
   return (
     <>
       <Sidebar />
-      <iframe id="dashboard"/>
+      {/* <iframe id="dashboard" title="" src=""></iframe> */}
+      <div id="dashboard-placeholder">
+        <h1>Bem Vindo ao Portal de Dashboards!</h1>
+        <p>Selecione os dashboards no painel lateral ao lado</p>
+      </div> 
     </>
   );
 }
