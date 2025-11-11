@@ -1,18 +1,8 @@
 import React from "react";
-import "../../styles/home.css";
-import Sidebar from "../../components/Sidebar";
+import "../../styles/login.css";
 
-function Home() {
-  return (
-    <>
-      <Sidebar />
-      {/* <iframe id="dashboard" title="" src=""></iframe> */}
-      <div id="dashboard-placeholder">
-        <h1>Bem Vindo ao Portal de Dashboards!</h1>
-        <p>Selecione os dashboards no painel lateral ao lado</p>
-      </div> 
-    </>
-  );
+function Login() {
+  return <></>
 }
 
-export default Home;
+export default Login;
