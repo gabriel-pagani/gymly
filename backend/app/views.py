@@ -54,6 +54,7 @@ class DashboardsViewSet(viewsets.ModelViewSet):
                 dashboard = {
                     'id': dashboard_data.id,
                     'title': dashboard_data.title,
+                    'status': dashboard_data.status,
                     'url': url,
                 }
                 sectors['Favoritos'].append(dashboard)
@@ -72,6 +73,7 @@ class DashboardsViewSet(viewsets.ModelViewSet):
             dashboard = {
                 'id': dashboard_data.id,
                 'title': dashboard_data.title,
+                'status': dashboard_data.status,
                 'url': url,
             }
             sectors[sector].append(dashboard)
