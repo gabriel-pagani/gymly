@@ -8,6 +8,15 @@ from rest_framework.response import Response
 from rest_framework import status
 from collections import OrderedDict
 from .utils.metabase import generate_dashboard_url
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
+
+
+@login_required
+def logout_view(request):
+    logout(request)
+    return redirect('/')
 
 
 class UsersViewSet(viewsets.ModelViewSet):

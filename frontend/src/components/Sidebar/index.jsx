@@ -377,7 +377,7 @@ function Sidebar({ onSelectDashboard }) {
               <i className="fa-solid fa-gears"></i>
               <span>Portal API</span>
             </a>
-            <a href="#" title="Fazer Logout">
+            <a href="/logout/" title="Fazer Logout">
               <i className="fas fa-sign-out-alt"></i>
               <span>Sair</span>
             </a>
