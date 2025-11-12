@@ -99,7 +99,14 @@ function Sidebar({ onSelectDashboard }) {
   const handleDashboardClick = (e, dashboard) => {
     e.preventDefault();
     if (dashboard.url) {
-      onSelectDashboard(dashboard.url);
+      if (dashboard.id === activeDashboardId) {
+        onSelectDashboard(null);
+        setTimeout(() => {
+          onSelectDashboard(dashboard.url);
+        }, 0);
+      } else {
+        onSelectDashboard(dashboard.url);
+      }
       setActiveDashboardId(dashboard.id);
       setIsUserMenuOpen(false);
       setOpenDropdownSector(null); // Fecha o dropdown do setor ao clicar
