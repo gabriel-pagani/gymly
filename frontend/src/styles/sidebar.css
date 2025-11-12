@@ -177,7 +177,7 @@
 }
 
 #sidebar:not(.collapsed) .submenu.active {
-  max-height: 500px; /* Altura suficiente para o acordeão */
+  max-height: 5000px; /* Altura suficiente para o acordeão */
   display: block; /* Mostra no modo acordeão */
   overflow-y: auto; /* Adiciona rolagem vertical quando necessário */
   overflow-x: hidden; /* Remove rolagem horizontal */
