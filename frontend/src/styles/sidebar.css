@@ -442,6 +442,10 @@
   padding: 30px 10px;
 }
 
+#sidebar.collapsed .alert {
+  display: none;
+}
+
 /* Responsividade */
 @media (max-width: 768px) {
   .user-dropdown {
