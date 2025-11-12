@@ -2,9 +2,9 @@ import React, { useState, useEffect, useMemo } from "react";
 import "../../styles/sidebar.css";
 import { getCookie } from "../../helpers/getCookie";
 
-// Caminhos das imagens a partir da pasta 'public'
-const whiteLogo = "/images/white_logo.png";
-const iconLogo = "/images/favicon.png";
+// Importa as imagens diretamente
+import whiteLogo from "../../images/white_logo.png";
+import iconLogo from "../../images/favicon.png";
 
 // Hook para buscar dados da API
 function useFetchSectors() {
