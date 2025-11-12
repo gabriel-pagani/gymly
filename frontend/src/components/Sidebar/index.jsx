@@ -369,9 +369,13 @@ function Sidebar({ onSelectDashboard }) {
             className={`user-dropdown ${isUserMenuOpen ? "show" : ""}`}
             id="user-dropdown"
           >
-            <a href="/admin/" title="Acessar Portal de Controle do Site">
+            <a href="/admin/" title="Acessar Portal de Administração do Site">
               <i className="fa-solid fa-screwdriver-wrench"></i>
               <span>Portal de Administração</span>
+            </a>
+            <a href="/api/" title="Acessar Portal da API do Site">
+              <i className="fa-solid fa-gears"></i>
+              <span>Portal API</span>
             </a>
             <a href="#" title="Fazer Logout">
               <i className="fas fa-sign-out-alt"></i>
