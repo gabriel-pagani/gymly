@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "../../styles/sidebar.css";
+import { getCookie } from "../../helpers/getCookie";
 
 // Caminhos das imagens a partir da pasta 'public'
 const whiteLogo = "/images/white_logo.png";
@@ -109,8 +110,22 @@ function Sidebar({ onSelectDashboard }) {
     e.preventDefault();
     e.stopPropagation();
 
-    fetch(`/api/dashboards/${dashboardId}/favorite/`)
-      .then((response) => response.json())
+    const csrftoken = getCookie('csrftoken');
+
+    fetch(`/api/dashboards/${dashboardId}/favorite/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrftoken,
+      },
+      credentials: 'include',
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Erro ao favoritar');
+        }
+        return response.json();
+      })
       .then(() => {
         refetchSectors();
       })
