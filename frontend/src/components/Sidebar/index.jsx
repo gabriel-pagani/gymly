@@ -232,95 +232,101 @@ function Sidebar({ onSelectDashboard }) {
         </div>
 
         <ul className="menu-list">
-          {Object.entries(filteredSectors).map(([sectorName, dashboards]) => {
-            const isFavoriteSection = sectorName === "Favoritos";
+          {Object.keys(filteredSectors).length === 0 ? (
+            <li className="alert">
+              <p><i className="fas fa-triangle-exclamation"></i> Nenhum dashboard foi localizado</p>
+            </li>
+          ) : (
+            Object.entries(filteredSectors).map(([sectorName, dashboards]) => {
+              const isFavoriteSection = sectorName === "Favoritos";
 
-            // Define se o submenu está ativo (acordeão ou dropdown)
-            const isAccordionActive =
-              !isCollapsed && !!activeSubmenus[sectorName];
-            const isDropdownActive =
-              isCollapsed && openDropdownSector === sectorName;
+              // Define se o submenu está ativo (acordeão ou dropdown)
+              const isAccordionActive =
+                !isCollapsed && !!activeSubmenus[sectorName];
+              const isDropdownActive =
+                isCollapsed && openDropdownSector === sectorName;
 
-            if (isFavoriteSection && dashboards.length === 0 && !searchTerm) {
-              return null;
-            }
+              if (isFavoriteSection && dashboards.length === 0 && !searchTerm) {
+                return null;
+              }
 
-            return (
-              // .menu-item agora precisa de position: relative (definido no CSS)
-              <li className="menu-item" key={sectorName}>
-                <div
-                  className={`sector-header ${
-                    isAccordionActive || isDropdownActive ? "active" : ""
-                  }`}
-                  title={sectorName}
-                  onClick={() => handleToggleSubmenu(sectorName)}
-                >
-                  <i
-                    className={`fas ${
-                      isFavoriteSection ? "fa-star" : "fa-box-archive"
+              return (
+                // .menu-item agora precisa de position: relative (definido no CSS)
+                <li className="menu-item" key={sectorName}>
+                  <div
+                    className={`sector-header ${
+                      isAccordionActive || isDropdownActive ? "active" : ""
                     }`}
-                  ></i>
-                  <span className="text">{sectorName}</span>
-                  <i className="fas fa-chevron-right toggle-icon"></i>
-                </div>
-                <ul
-                  // Aplica .active (acordeão) OU .show (dropdown)
-                  className={`submenu ${isAccordionActive ? "active" : ""} ${
-                    isDropdownActive ? "show" : ""
-                  }`}
-                  id={isFavoriteSection ? "favorites-list" : undefined}
-                >
-                  {dashboards.map((dashboard) => (
-                    <li key={dashboard.id} data-id={dashboard.id}>
-                      <a
-                        href="#"
-                        className={`dashboard-link ${
-                          dashboard.id === activeDashboardId ? "active" : ""
-                        }`}
-                        data-url={dashboard.url}
-                        title={
-                          dashboard.status === "D"
-                            ? "Em Desenvolvimento"
-                            : dashboard.title
-                        }
-                        onClick={(e) => handleDashboardClick(e, dashboard)}
-                      >
-                        {!dashboard.url ? (
-                          <i
-                            className="fas fa-exclamation-triangle"
-                            title="Sem conteúdo configurado"
-                          ></i>
-                        ) : (
-                          <i className="fas fa-chart-line"></i>
-                        )}
-                        <span className="text">
-                          {dashboard.title}
-                          <StatusBadge status={dashboard.status} />
-                        </span>
-                        <i
-                          className={`fas fa-thumbtack pin-icon ${
-                            isFavoriteSection ||
-                            sectors.Favoritos?.some(
-                              (d) => d.id === dashboard.id
-                            )
-                              ? "favorited"
-                              : ""
+                    title={sectorName}
+                    onClick={() => handleToggleSubmenu(sectorName)}
+                  >
+                    <i
+                      className={`fas ${
+                        isFavoriteSection ? "fa-star" : "fa-box-archive"
+                      }`}
+                    ></i>
+                    <span className="text">{sectorName}</span>
+                    <i className="fas fa-chevron-right toggle-icon"></i>
+                  </div>
+                  <ul
+                    // Aplica .active (acordeão) OU .show (dropdown)
+                    className={`submenu ${isAccordionActive ? "active" : ""} ${
+                      isDropdownActive ? "show" : ""
+                    }`}
+                    id={isFavoriteSection ? "favorites-list" : undefined}
+                  >
+                    {dashboards.map((dashboard) => (
+                      <li key={dashboard.id} data-id={dashboard.id}>
+                        <a
+                          href="#"
+                          className={`dashboard-link ${
+                            dashboard.id === activeDashboardId ? "active" : ""
                           }`}
-                          data-id={dashboard.id}
+                          data-url={dashboard.url}
                           title={
-                            isFavoriteSection
-                              ? "Desafixar dos favoritos"
-                              : "Fixar nos favoritos"
+                            dashboard.status === "D"
+                              ? "Em Desenvolvimento"
+                              : dashboard.title
                           }
-                          onClick={(e) => handleFavoriteToggle(e, dashboard.id)}
-                        ></i>
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            );
-          })}
+                          onClick={(e) => handleDashboardClick(e, dashboard)}
+                        >
+                          {!dashboard.url ? (
+                            <i
+                              className="fas fa-exclamation-triangle"
+                              title="Sem conteúdo configurado"
+                            ></i>
+                          ) : (
+                            <i className="fas fa-chart-line"></i>
+                          )}
+                          <span className="text">
+                            {dashboard.title}
+                            <StatusBadge status={dashboard.status} />
+                          </span>
+                          <i
+                            className={`fas fa-thumbtack pin-icon ${
+                              isFavoriteSection ||
+                              sectors.Favoritos?.some(
+                                (d) => d.id === dashboard.id
+                              )
+                                ? "favorited"
+                                : ""
+                            }`}
+                            data-id={dashboard.id}
+                            title={
+                              isFavoriteSection
+                                ? "Desafixar dos favoritos"
+                                : "Fixar nos favoritos"
+                            }
+                            onClick={(e) => handleFavoriteToggle(e, dashboard.id)}
+                          ></i>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              );
+            })
+          )}
         </ul>
       </nav>
 
