@@ -49,7 +49,7 @@
   overflow-y: auto;
   overflow-x: hidden; /* Impede a barra de rolagem horizontal */
   scrollbar-width: thin;
-  scrollbar-color: #4b4b4b #1f2327;
+  scrollbar-color: #4b4b4b #2a2e33;
 }
 
 .menu::-webkit-scrollbar {
@@ -57,7 +57,7 @@
 }
 
 .menu::-webkit-scrollbar-track {
-  background: #1f2327;
+  background: #2a2e33;
 }
 
 .menu::-webkit-scrollbar-thumb {
@@ -179,6 +179,8 @@
 #sidebar:not(.collapsed) .submenu.active {
   max-height: 500px; /* Altura suficiente para o acordeão */
   display: block; /* Mostra no modo acordeão */
+  overflow-y: auto; /* Adiciona rolagem vertical quando necessário */
+  overflow-x: hidden; /* Remove rolagem horizontal */
 }
 
 /* 2. Comportamento Dropdown (Sidebar Colapsada) */
@@ -186,7 +188,6 @@
   /* Remove os estilos de acordeão */
   max-height: none;
   padding-left: 0;
-  overflow: visible;
   transition: all 0.3s ease; /* Transição de dropdown */
 
   /* Aplica estilos de dropdown (pop-out) */
@@ -200,6 +201,11 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   z-index: 1000;
 
+  /* Adiciona altura máxima e rolagem para dropdowns */
+  max-height: 80vh; /* 80% da altura da viewport */
+  overflow-y: auto;
+  overflow-x: hidden;
+
   /* Oculta por padrão no modo colapsado */
   opacity: 0;
   visibility: hidden;
@@ -208,7 +214,7 @@
 
 /* Remove a lógica 'active' do acordeão quando colapsado */
 #sidebar.collapsed .submenu.active {
-  max-height: none;
+  max-height: 80vh; /* Mantém altura máxima no dropdown */
   display: block; /* Garante que o display:none do acordeão não afete */
 }
 
@@ -223,6 +229,30 @@
 #sidebar.collapsed .submenu a {
   padding: 12px 16px;
   margin: 4px;
+}
+
+/* Estiliza a barra de rolagem dos submenus */
+.submenu {
+  scrollbar-width: thin;
+  scrollbar-color: #4b4b4b #2a2e33;
+}
+
+.submenu::-webkit-scrollbar {
+  width: 6px;
+}
+
+.submenu::-webkit-scrollbar-track {
+  background: #2a2e33;
+  border-radius: 4px;
+}
+
+.submenu::-webkit-scrollbar-thumb {
+  background-color: #4b4b4b;
+  border-radius: 4px;
+}
+
+.submenu::-webkit-scrollbar-thumb:hover {
+  background-color: #5a5f66;
 }
 /* --- FIM DA LÓGICA DE SUBMENU --- */
 
