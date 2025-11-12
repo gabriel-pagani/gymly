@@ -1,71 +1,365 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import "../../styles/sidebar.css";
 
-function Sidebar() {
-  const [sectors, setSectors] = useState([]);
-  const menuItemsData = ["Portal de Administração", "Sair"];
+// Caminhos das imagens a partir da pasta 'public'
+const whiteLogo = "/images/white_logo.png";
+const iconLogo = "/images/favicon.png";
 
-  useEffect(() => {
-    fetch("/api/dashboards/sectors/")
+// Hook para buscar dados da API
+function useFetchSectors() {
+  const [sectors, setSectors] = useState({});
+
+  const fetchData = () => {
+    // Adiciona um timestamp para evitar cache da API
+    const url = `/api/dashboards/sectors/?t=${new Date().getTime()}`;
+
+    fetch(url)
       .then((response) => response.json())
       .then((data) => {
-        const sectorsArray = Object.keys(data).map((sector) => ({
-          id: sector,
-          dashboards: data[sector],
-        }));
-        setSectors(sectorsArray);
-      });
+        setSectors(data);
+      })
+      .catch((error) => console.error("Erro ao buscar setores:", error));
+  };
+
+  useEffect(() => {
+    fetchData();
   }, []);
 
+  return { sectors, refetchSectors: fetchData };
+}
+
+// Componente do Emblema de Status
+function StatusBadge({ status }) {
+  if (status === "D") {
+    return <span className="dev-badge">EM DESENVOLVIMENTO</span>;
+  }
+  if (status === "M") {
+    return (
+      <span
+        className="dev-badge"
+        style={{ backgroundColor: "#ffc107", color: "#000" }}
+      >
+        EM MANUTENÇÃO
+      </span>
+    );
+  }
+  return null;
+}
+
+// Componente principal da Sidebar
+function Sidebar({ onSelectDashboard }) {
+  const { sectors, refetchSectors } = useFetchSectors();
+  const [isCollapsed, setIsCollapsed] = useState(
+    localStorage.getItem("sidebar-collapsed") === "true"
+  );
+  const [activeSubmenus, setActiveSubmenus] = useState({ Favoritos: true });
+  const [searchTerm, setSearchTerm] = useState("");
+  const [activeDashboardId, setActiveDashboardId] = useState(null);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+
+  // Estado para controlar o dropdown de setor (quando colapsado)
+  const [openDropdownSector, setOpenDropdownSector] = useState(null);
+
+  // Guarda o estado dos submenus antes da pesquisa
+  const [preSearchActiveSubmenus, setPreSearchActiveSubmenus] = useState(null);
+
+  const handleToggleSidebar = () => {
+    const collapsed = !isCollapsed;
+    setIsCollapsed(collapsed);
+    localStorage.setItem("sidebar-collapsed", collapsed);
+    // Fecha menus pop-out abertos ao colapsar/expandir
+    setOpenDropdownSector(null);
+    setIsUserMenuOpen(false);
+  };
+
+  // Decide se abre o acordeão (expandido) ou o dropdown (colapsado)
+  const handleToggleSubmenu = (sectorName) => {
+    if (isCollapsed) {
+      // Se estiver colapsado, age como dropdown
+      setOpenDropdownSector((prev) =>
+        prev === sectorName ? null : sectorName
+      );
+      setIsUserMenuOpen(false); // Fecha o menu do usuário
+    } else {
+      // Se estiver expandido, age como acordeão
+      setActiveSubmenus((prev) => ({
+        ...prev,
+        [sectorName]: !prev[sectorName],
+      }));
+    }
+  };
+
+  const handleToggleUserMenu = (e) => {
+    e.preventDefault();
+    setIsUserMenuOpen((prev) => !prev);
+    setOpenDropdownSector(null); // Fecha o dropdown do setor
+  };
+
+  const handleDashboardClick = (e, dashboard) => {
+    e.preventDefault();
+    if (dashboard.url) {
+      onSelectDashboard(dashboard.url);
+      setActiveDashboardId(dashboard.id);
+      setIsUserMenuOpen(false);
+      setOpenDropdownSector(null); // Fecha o dropdown do setor ao clicar
+    }
+  };
+
+  const handleFavoriteToggle = (e, dashboardId) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    fetch(`/api/dashboards/${dashboardId}/favorite/`)
+      .then((response) => response.json())
+      .then(() => {
+        refetchSectors();
+      })
+      .catch((error) => console.error("Erro ao favoritar:", error));
+  };
+
+  const normalizeText = (text) =>
+    text
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+
+  const filteredSectors = useMemo(() => {
+    if (!searchTerm) {
+      return sectors;
+    }
+
+    const normalizedTerm = normalizeText(searchTerm);
+    const newFilteredSectors = {};
+
+    Object.entries(sectors).forEach(([sectorName, dashboards]) => {
+      const filteredDashboards = dashboards.filter((dashboard) =>
+        normalizeText(dashboard.title).includes(normalizedTerm)
+      );
+
+      if (filteredDashboards.length > 0) {
+        newFilteredSectors[sectorName] = filteredDashboards;
+      }
+    });
+    return newFilteredSectors;
+  }, [sectors, searchTerm]);
+
+  // Expande/recolhe acordeões ao pesquisar
+  useEffect(() => {
+    // Inicia uma pesquisa
+    if (searchTerm && preSearchActiveSubmenus === null) {
+      setPreSearchActiveSubmenus(activeSubmenus);
+    }
+
+    if (searchTerm) {
+      const allSectors = Object.keys(filteredSectors).reduce((acc, sector) => {
+        acc[sector] = true;
+        return acc;
+      }, {});
+      setActiveSubmenus(allSectors);
+    } else {
+      // Restaura o estado anterior se ele existir
+      if (preSearchActiveSubmenus !== null) {
+        setActiveSubmenus(preSearchActiveSubmenus);
+        setPreSearchActiveSubmenus(null); // Limpa o estado guardado
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchTerm, filteredSectors]);
+
+  // Fecha menus dropdown (usuário E setor) ao clicar fora ou pressionar ESC
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Fecha menu do usuário
+      if (isUserMenuOpen && !event.target.closest(".user-menu")) {
+        setIsUserMenuOpen(false);
+      }
+      // Fecha menu de setor
+      if (openDropdownSector && !event.target.closest(".menu-item")) {
+        setOpenDropdownSector(null);
+      }
+    };
+
+    const handleKeydown = (event) => {
+      if (event.key === "Escape") {
+        setIsUserMenuOpen(false);
+        setOpenDropdownSector(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleKeydown);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeydown);
+    };
+  }, [isUserMenuOpen, openDropdownSector]);
+
   return (
-    <aside id="sidebar">
-      <header id="top">
-        <div id="logo">
-          <a href="/">
-            <img alt="Logo Grupo SMI" src="/path/to/logo.png" />
-          </a>
-        </div>
-      </header>
+    <aside id="sidebar" className={isCollapsed ? "collapsed" : ""}>
+      <div className="logo">
+        <a href="/" title="Recarregar a Página">
+          <img
+            src={isCollapsed ? iconLogo : whiteLogo}
+            alt="Logo"
+            id="logo-img"
+            data-full-logo={whiteLogo}
+            data-icon-logo={iconLogo}
+          />
+        </a>
+      </div>
 
-      <div className="divider" />
-
-      <nav id="menu">
-        <div id="search-bar">
-          <input type="text" placeholder="Pesquise por Dashboards aqui ..."/>
+      <nav className="menu">
+        <div className="search-indicadores-container">
+          <input
+            type="text"
+            id="search-indicadores"
+            placeholder="Pesquise por dashboards aqui..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          {/* O botão de limpar só aparece se houver texto */}
+          {searchTerm && (
+            <button
+              className="clear-search"
+              type="button"
+              title="Limpar pesquisa"
+              onClick={() => setSearchTerm("")}
+            >
+              <i className="fas fa-times"></i>
+            </button>
+          )}
         </div>
-        <ul id="sectors-list">
-          {sectors.map((sector) => (
-            <li key={sector.id} className="sector">
-              {sector.id}
-              <ul className="dashboards-list">
-                {Array.isArray(sector.dashboards) ? (
-                  sector.dashboards.map((dashboard) => (
-                    <li key={dashboard.id} className="dashboard">
-                      {dashboard.title}
+
+        <ul className="menu-list">
+          {Object.entries(filteredSectors).map(([sectorName, dashboards]) => {
+            const isFavoriteSection = sectorName === "Favoritos";
+
+            // Define se o submenu está ativo (acordeão ou dropdown)
+            const isAccordionActive =
+              !isCollapsed && !!activeSubmenus[sectorName];
+            const isDropdownActive =
+              isCollapsed && openDropdownSector === sectorName;
+
+            if (isFavoriteSection && dashboards.length === 0 && !searchTerm) {
+              return null;
+            }
+
+            return (
+              // .menu-item agora precisa de position: relative (definido no CSS)
+              <li className="menu-item" key={sectorName}>
+                <div
+                  className={`sector-header ${
+                    isAccordionActive || isDropdownActive ? "active" : ""
+                  }`}
+                  title={sectorName}
+                  onClick={() => handleToggleSubmenu(sectorName)}
+                >
+                  <i
+                    className={`fas ${
+                      isFavoriteSection ? "fa-star" : "fa-box-archive"
+                    }`}
+                  ></i>
+                  <span className="text">{sectorName}</span>
+                  <i className="fas fa-chevron-right toggle-icon"></i>
+                </div>
+                <ul
+                  // Aplica .active (acordeão) OU .show (dropdown)
+                  className={`submenu ${isAccordionActive ? "active" : ""} ${
+                    isDropdownActive ? "show" : ""
+                  }`}
+                  id={isFavoriteSection ? "favorites-list" : undefined}
+                >
+                  {dashboards.map((dashboard) => (
+                    <li key={dashboard.id} data-id={dashboard.id}>
+                      <a
+                        href="#"
+                        className={`dashboard-link ${
+                          dashboard.id === activeDashboardId ? "active" : ""
+                        }`}
+                        data-url={dashboard.url}
+                        title={
+                          dashboard.status === "D"
+                            ? "Em Desenvolvimento"
+                            : dashboard.title
+                        }
+                        onClick={(e) => handleDashboardClick(e, dashboard)}
+                      >
+                        {!dashboard.url ? (
+                          <i
+                            className="fas fa-exclamation-triangle"
+                            title="Sem conteúdo configurado"
+                          ></i>
+                        ) : (
+                          <i className="fas fa-chart-line"></i>
+                        )}
+                        <span className="text">
+                          {dashboard.title}
+                          <StatusBadge status={dashboard.status} />
+                        </span>
+                        <i
+                          className={`fas fa-thumbtack pin-icon ${
+                            isFavoriteSection ||
+                            sectors.Favoritos?.some(
+                              (d) => d.id === dashboard.id
+                            )
+                              ? "favorited"
+                              : ""
+                          }`}
+                          data-id={dashboard.id}
+                          title={
+                            isFavoriteSection
+                              ? "Desafixar dos favoritos"
+                              : "Fixar nos favoritos"
+                          }
+                          onClick={(e) => handleFavoriteToggle(e, dashboard.id)}
+                        ></i>
+                      </a>
                     </li>
-                  ))
-                ) : null}
-              </ul>
-            </li>
-          ))}
+                  ))}
+                </ul>
+              </li>
+            );
+          })}
         </ul>
       </nav>
 
-      <div className="divider" />
+      <div className="bottom">
+        <div className="user-menu" title="nome.usuario">
+          <a
+            href="#"
+            className={`user-toggle ${isUserMenuOpen ? "active" : ""}`}
+            id="user-toggle"
+            onClick={handleToggleUserMenu}
+          >
+            <i className="fas fa-user-tie"></i>
+            <span className="text">nome.usuario</span>
+            <i className="fas fa-chevron-down dropdown-icon"></i>
+          </a>
 
-      <footer id="bottom">
-        <div id="user-menu">
-          user.name
-          <ul id="user-menu-list">
-            {menuItemsData.map((item) => (
-              <li key={item} className="user-menu-item">
-                {item}
-              </li>
-            ))}
-          </ul>
+          <div
+            className={`user-dropdown ${isUserMenuOpen ? "show" : ""}`}
+            id="user-dropdown"
+          >
+            <a href="/admin/" title="Acessar Portal de Controle do Site">
+              <i className="fa-solid fa-screwdriver-wrench"></i>
+              <span>Portal de Administração</span>
+            </a>
+            <a href="#" title="Fazer Logout">
+              <i className="fas fa-sign-out-alt"></i>
+              <span>Sair</span>
+            </a>
+          </div>
         </div>
-        <div id="toggle-button">=</div>
-      </footer>
+
+        <button
+          id="toggle"
+          title="Minimizar Menu"
+          onClick={handleToggleSidebar}
+        >
+          <i className="fas fa-bars"></i>
+        </button>
+      </div>
     </aside>
   );
 }

@@ -1,35 +1,467 @@
+/* Estilos da Sidebar (de global/css/sidebar.css) */
 #sidebar {
-  width: 20vw;
-  flex: 0 0 20vw;
-  min-height: 100vh;
-  position: relative;
-  background-color: #1F2327;
+  width: 350px;
+  height: 100vh;
+  background-color: #1f2327;
+  color: white;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  transition: width 0.3s ease;
+  z-index: 1001; /* Garante que a sidebar esteja acima do iframe */
+}
+
+#sidebar.collapsed {
+  width: 60px;
+}
+
+#sidebar.collapsed .text {
+  display: none;
+}
+
+.logo {
+  text-align: center;
+  padding: 20px 0;
+  border-bottom: 1px solid #4b4b4b;
+  font-size: 24px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+}
+
+.logo img {
+  width: 40px;
+  height: auto;
+  transition: width 0.3s ease;
+}
+
+#sidebar:not(.collapsed) .logo img {
+  width: 125px;
+}
+
+#sidebar.collapsed .logo img {
+  width: 30px;
+}
+
+.menu {
+  padding: 20px 10px;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden; /* Impede a barra de rolagem horizontal */
+  scrollbar-width: thin;
+  scrollbar-color: #4b4b4b #1f2327;
+}
+
+.menu::-webkit-scrollbar {
+  width: 8px;
+}
+
+.menu::-webkit-scrollbar-track {
+  background: #1f2327;
+}
+
+.menu::-webkit-scrollbar-thumb {
+  background-color: #4b4b4b;
+  border-radius: 4px;
+  border: 2px solid #1f2327;
+}
+
+.bottom {
+  padding: 15px 10px;
+  border-top: 1px solid #4b4b4b;
+}
+
+#toggle {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  width: 100%;
+  padding: 10px 0;
+  text-align: center;
+  margin-top: 5px;
+}
+
+/* Estilos dos Dashboards (de dashboards/css/main.css) */
+#sidebar.collapsed .toggle-icon {
+  display: none;
+}
+
+.menu a {
+  display: flex;
+  align-items: center;
+  color: white;
+  padding: 10px 12px;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.menu a:hover {
+  background-color: #33373c;
+}
+
+.menu i {
+  width: 24px;
+  text-align: center;
+}
+
+.menu .text {
+  margin-left: 12px;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.2;
+}
+
+.submenu .text {
+  font-size: 0.95rem;
+}
+
+.menu-list {
+  list-style: none;
+  padding: 0;
+}
+
+.menu-item {
+  margin-bottom: 10px;
+  /* Contexto de posição para o dropdown colapsado */
+  position: relative;
+}
+
+.sector-header {
+  display: flex;
+  align-items: flex-start;
+  padding: 10px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.sector-header .text {
+  flex: 1;
+}
+
+.sector-header:hover {
+  background-color: #33373c;
+}
+
+.sector-header i {
+  width: 24px;
+  text-align: center;
+}
+
+.toggle-icon {
+  margin-left: auto;
+  transition: transform 0.3s;
+}
+
+.dashboard-link.active {
+  background-color: #33373c;
+}
+
+.sector-header.active .toggle-icon {
+  transform: rotate(90deg);
+}
+
+/* --- LÓGICA DE SUBMENU HÍBRIDO (CORRIGIDA) --- */
+
+/* 1. Comportamento Padrão: Acordeão (Sidebar Expandida) */
+#sidebar:not(.collapsed) .submenu {
+  padding-left: 15px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  display: none; /* Inicia oculto */
+}
+
+#sidebar:not(.collapsed) .submenu.active {
+  max-height: 500px; /* Altura suficiente para o acordeão */
+  display: block; /* Mostra no modo acordeão */
+}
+
+/* 2. Comportamento Dropdown (Sidebar Colapsada) */
+#sidebar.collapsed .submenu {
+  /* Remove os estilos de acordeão */
+  max-height: none;
+  padding-left: 0;
+  overflow: visible;
+  transition: all 0.3s ease; /* Transição de dropdown */
+
+  /* Aplica estilos de dropdown (pop-out) */
+  display: block; /* Garante que está no DOM para transição */
+  position: absolute;
+  left: 60px; /* Posição à direita da barra colapsada */
+  top: 0;
+  width: 250px;
+  background-color: #2a2e33;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+
+  /* Oculta por padrão no modo colapsado */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(10px);
+}
+
+/* Remove a lógica 'active' do acordeão quando colapsado */
+#sidebar.collapsed .submenu.active {
+  max-height: none;
+  display: block; /* Garante que o display:none do acordeão não afete */
+}
+
+/* Mostra o dropdown quando a classe 'show' é adicionada (via React) */
+#sidebar.collapsed .submenu.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+
+/* Ajusta os links dentro do dropdown */
+#sidebar.collapsed .submenu a {
+  padding: 12px 16px;
+  margin: 4px;
+}
+/* --- FIM DA LÓGICA DE SUBMENU --- */
+
+.menu a.dashboard-link.active {
+  background-color: #3a4046;
+  position: relative;
+}
+
+.menu a.dashboard-link.active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background-color: #4a90e2;
+}
+
+.submenu li {
+  margin-top: 5px;
+}
+
+.bottom a {
+  display: flex;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+  padding: 10px 12px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  transition: background 0.2s;
+}
+
+.bottom a:hover {
+  background-color: #33373c;
+}
+
+.bottom .text {
+  margin-left: 12px;
+}
+
+.alert {
+  text-align: center;
+}
+
+.pin-icon {
+  margin-left: auto;
+  padding: 5px;
+  color: #888;
+  cursor: pointer;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.pin-icon:hover {
+  color: #fff;
+  transform: scale(1.2);
+}
+
+.pin-icon.favorited {
+  color: #ffc107;
+}
+
+/* --- MELHORIA: Oculta a barra de pesquisa quando colapsado --- */
+.search-indicadores-container {
+  padding: 10px 12px;
+  display: flex;
+  gap: 8px;
+  /* Transição para suavizar o aparecimento/desaparecimento */
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  visibility: visible;
+  opacity: 1;
+}
+
+#sidebar.collapsed .search-indicadores-container {
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+}
+/* --- FIM DA MELHORIA --- */
+
+.search-indicadores-container input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #4b4b4b;
+  font-size: 15px;
   box-sizing: border-box;
-  font-size: 2.5vh;
+  margin-bottom: 0;
+  background-color: #1f2327;
+}
+
+.search-indicadores-container input::placeholder {
+  color: #fff;
+  opacity: 1;
+  font-size: 15px;
+}
+
+.dev-badge {
+  display: inline-block;
+  background-color: #0059ff;
+  color: #fff;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.clear-search {
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: none;
+  background: #4b4b4b;
   color: #fff;
 }
 
-.divider {
-  height: 0.1vh;
-  background-color: #4B4B4B;
+/* Estilos do User Menu (de home/css/home.css) */
+.user-menu {
+  position: relative;
 }
 
-#top {
-  flex: 0 0 12vh;
+.user-toggle {
+  display: flex;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+  padding: 10px 12px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  transition: background 0.2s;
+  cursor: pointer;
 }
 
-#menu {
-  flex: 1 1 auto;
-  min-height: 0;
-  overflow: auto;
+.user-toggle:hover {
+  background-color: #33373c;
 }
 
-#bottom {
-  flex: 0 0 15vh;
+.user-toggle i {
+  width: 24px;
+  text-align: center;
 }
 
-#search-bar {
-  font-size: 2vh;
+.user-toggle .text {
+  margin-left: 12px;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.dropdown-icon {
+  margin-left: auto;
+  transition: transform 0.3s;
+  width: 16px !important;
+}
+
+.user-toggle.active .dropdown-icon {
+  transform: rotate(180deg);
+}
+
+.user-dropdown {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  background-color: #2a2e33;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  z-index: 1000;
+  margin-bottom: 5px;
+}
+
+.user-dropdown.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.user-dropdown a {
+  display: flex;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+  padding: 12px 16px;
+  transition: background 0.2s;
+  border-radius: 4px;
+  margin: 4px;
+}
+
+.user-dropdown a:hover {
+  background-color: #404550;
+}
+
+.user-dropdown a i {
+  width: 20px;
+  text-align: center;
+  margin-right: 12px;
+}
+
+/* Ajustes para sidebar colapsada (combinado) */
+#sidebar.collapsed .user-menu .text,
+#sidebar.collapsed .dropdown-icon {
+  display: none;
+}
+
+#sidebar.collapsed .user-dropdown {
+  left: 60px;
+  bottom: 10px;
+  width: 250px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .user-dropdown {
+    position: fixed;
+    bottom: 80px;
+    left: 10px;
+    right: 10px;
+    width: auto;
+  }
+
+  #sidebar.collapsed .user-dropdown {
+    left: 10px;
+    width: auto;
+  }
+
+  /* Faz o dropdown do setor ocupar a tela toda em mobile */
+  #sidebar.collapsed .submenu {
+    left: 10px;
+    right: 10px;
+    top: auto;
+    bottom: 80px; /* Acima do menu inferior */
+    width: auto;
+    transform: translateY(10px); /* Anima de baixo para cima */
+  }
+
+  #sidebar.collapsed .submenu.show {
+    transform: translateY(0);
+  }
 }
