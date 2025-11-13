@@ -1,0 +1,145 @@
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #1f2327;
+}
+
+.container {
+  background-color: #fff;
+  padding: 50px 38px;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  font-size: 8vh;
+  margin-bottom: 19px;
+  color: #666666;
+  font-weight: 600;
+}
+
+.mensagem {
+  min-height: 55px;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 18px;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 25px;
+  word-wrap: break-word;
+  line-height: 1.4;
+}
+
+.mensagem i {
+  margin-right: 13px;
+  font-size: 18px;
+  margin-top: 2px;
+}
+
+.erro {
+  background-color: #f1aeb5;
+  color: #842029;
+}
+
+.sucesso {
+  background-color: #aef1b6;
+  color: #20842c;
+}
+
+.aviso {
+  background-color: #f1efae;
+  color: #758420;
+}
+
+.info {
+  background-color: #9eeaf9;
+  color: #055174;
+}
+
+.input-group {
+  margin-bottom: 25px;
+  position: relative;
+}
+
+.input-group i.input-icon {
+  position: absolute;
+  top: 50%;
+  left: 13px;
+  transform: translateY(-50%);
+  color: #1f2327;
+  font-size: 18px;
+}
+
+.input-group i.toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 13px;
+  transform: translateY(-50%);
+  color: #1f2327;
+  font-size: 18px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.input-group i.toggle-password:hover {
+  color: #33373c;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 15px 45px 15px 45px;
+  border: none;
+  background-color: #f1f3f5;
+  border-radius: 8px;
+  font-size: 18px;
+  color: #333;
+}
+
+.input-group input:focus {
+  outline: none;
+  background-color: #e9ecef;
+}
+
+.btn {
+  background-color: #1f2327;
+  color: #fff;
+  border: none;
+  padding: 15px;
+  width: 100%;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.btn:hover {
+  background-color: #33373c;
+}
+
+.link-voltar {
+  text-align: center;
+  margin-top: 19px;
+  cursor: pointer;
+  color: #1f2225;
+  font-size: 18px;
+  text-decoration: underline;
+}
+
+ul.regras {
+  margin-top: 0;
+  margin-bottom: 25px;
+  padding-left: 23px;
+  font-size: 15px;
+  color: #555;
+  list-style: inside;
+}
+
+ul.regras li {
+  margin-bottom: 5px;
+  list-style: inside;
+}

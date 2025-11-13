@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { getCookie } from "../../helpers/getCookie";
-import "../../styles/login.css";
+import "../../styles/login.css"; // Importa o CSS atualizado
 
 function Login({ onLoginSuccess }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -41,18 +42,30 @@ function Login({ onLoginSuccess }) {
     }
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
-    <div className="login-container">
-      <div className="login-box">
+    // Adicionamos este wrapper para conter os estilos da página de login
+    <div className="login-wrapper">
+      <div className="container" id="tela-login">
         <h2>Dashly</h2>
+
+        {error && (
+          <div className="mensagem erro">
+            <i className="fas fa-circle-xmark"></i>
+            <span>{error}</span>
+          </div>
+        )}
+
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="username">
-              <i className="fas fa-user"></i>
-            </label>
+          <div className="input-group">
+            <i className="fas fa-user input-icon"></i>
             <input
               type="text"
               id="username"
+              name="username"
               placeholder="Usuário"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -61,27 +74,27 @@ function Login({ onLoginSuccess }) {
               autoFocus
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="password">
-              <i className="fas fa-lock"></i>
-            </label>
+
+          <div className="input-group">
+            <i className="fas fa-lock input-icon"></i>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               id="password"
+              name="password"
               placeholder="Senha"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
               disabled={isLoading}
             />
+            <i
+              className={showPassword ? "fas fa-eye-slash toggle-password" : "fas fa-eye toggle-password"}
+              title={showPassword ? "Ocultar senha" : "Mostrar senha"}
+              onClick={togglePasswordVisibility}
+            ></i>
           </div>
-          {error && (
-            <div className="error-message">
-              <i className="fas fa-exclamation-circle"></i>
-              {error}
-            </div>
-          )}
-          <button type="submit" disabled={isLoading} className="login-button">
+
+          <button type="submit" disabled={isLoading} className="btn">
             {isLoading ? (
               <>
                 <i className="fas fa-spinner fa-spin"></i> Entrando...
