@@ -291,7 +291,7 @@ function Sidebar({ onSelectDashboard, currentUser }) {
         <ul className="menu-list">
           {Object.keys(filteredSectors).length === 0 ? (
             <li className="alert">
-              <p><i className="fas fa-triangle-exclamation"></i> Nenhum dashboard foi localizado <i className="fas fa-triangle-exclamation"></i></p>
+              <p>Nenhum dashboard foi encontrado!</p>
             </li>
           ) : (
             Object.entries(filteredSectors).map(([sectorName, dashboards]) => {
