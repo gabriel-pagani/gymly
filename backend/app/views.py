@@ -18,6 +18,13 @@ class AuthViewSet(viewsets.ViewSet):
     def login(self, request):
         username = request.data.get('username')
         password = request.data.get('password')
+
+        if not username or not password:
+            return Response(
+                {"error": "Fill in all the fields."},
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+
         user = authenticate(request, username=username, password=password)
 
         if user is not None:

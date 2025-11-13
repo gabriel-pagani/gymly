@@ -69,7 +69,6 @@ function Login({ onLoginSuccess }) {
               placeholder="Usuário"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              required
               disabled={isLoading}
               autoFocus
             />
@@ -84,7 +83,6 @@ function Login({ onLoginSuccess }) {
               placeholder="Senha"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              required
               disabled={isLoading}
             />
             <i
