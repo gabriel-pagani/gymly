@@ -4,7 +4,7 @@ import { getCookie } from "../../helpers/getCookie";
 
 // Importa as imagens diretamente
 import whiteLogo from "../../images/white_logo.png";
-import iconLogo from "../../images/favicon.png";
+import smallLogo from "../../images/small_logo.png";
 
 // Hook para buscar dados da API
 function useFetchSectors() {
@@ -257,11 +257,11 @@ function Sidebar({ onSelectDashboard, currentUser }) {
       <div className="logo">
         <a href="/" title="Recarregar a Página">
           <img
-            src={isCollapsed ? iconLogo : whiteLogo}
+            src={isCollapsed ? smallLogo : whiteLogo}
             alt="Logo"
             id="logo-img"
             data-full-logo={whiteLogo}
-            data-icon-logo={iconLogo}
+            data-icon-logo={smallLogo}
           />
         </a>
       </div>
