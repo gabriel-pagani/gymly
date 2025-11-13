@@ -17,12 +17,12 @@
 }
 
 #dashboard-placeholder h1 {
-  font-size: 5vh;
+  font-size: 7vh;
   color: #666;
 }
 
 #dashboard-placeholder p {
-  font-size: 2.5vh;
+  font-size: 4vh;
   opacity: 0.8;
   color: #666;
 }
