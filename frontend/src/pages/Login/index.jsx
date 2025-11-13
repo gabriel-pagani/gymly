@@ -44,7 +44,7 @@ function Login({ onLoginSuccess }) {
   return (
     <div className="login-container">
       <div className="login-box">
-        <h2>Portal de Dashboards</h2>
+        <h2>Dashly</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="username">
