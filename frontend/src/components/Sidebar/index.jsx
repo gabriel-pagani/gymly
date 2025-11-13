@@ -64,6 +64,29 @@ function Sidebar({ onSelectDashboard }) {
   // Guarda o estado dos submenus antes da pesquisa
   const [preSearchActiveSubmenus, setPreSearchActiveSubmenus] = useState(null);
 
+  const handleLogout = (e) => {
+    e.preventDefault();
+    
+    const csrftoken = getCookie('csrftoken');
+
+    fetch('/api/auth/logout/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrftoken,
+      },
+      credentials: 'include',
+    })
+      .then((response) => {
+        if (response.ok) {
+          window.location.href = '/';
+        } else {
+          console.error('Erro ao fazer logout');
+        }
+      })
+      .catch((error) => console.error("Erro ao fazer logout:", error));
+  };
+
   const handleToggleSidebar = () => {
     const collapsed = !isCollapsed;
     setIsCollapsed(collapsed);
@@ -377,7 +400,7 @@ function Sidebar({ onSelectDashboard }) {
               <i className="fa-solid fa-gears"></i>
               <span>Portal API</span>
             </a>
-            <a href="/logout/" title="Fazer Logout">
+            <a href="#" title="Fazer Logout" onClick={handleLogout}>
               <i className="fas fa-sign-out-alt"></i>
               <span>Sair</span>
             </a>
