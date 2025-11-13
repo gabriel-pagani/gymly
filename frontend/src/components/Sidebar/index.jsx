@@ -48,7 +48,7 @@ function StatusBadge({ status }) {
 }
 
 // Componente principal da Sidebar
-function Sidebar({ onSelectDashboard }) {
+function Sidebar({ onSelectDashboard, currentUser }) {
   const { sectors, refetchSectors } = useFetchSectors();
   const [isCollapsed, setIsCollapsed] = useState(
     localStorage.getItem("sidebar-collapsed") === "true"
@@ -240,6 +240,18 @@ function Sidebar({ onSelectDashboard }) {
     };
   }, [isUserMenuOpen, openDropdownSector]);
 
+  // Função para formatar o nome do usuário
+  const getUserDisplayName = () => {
+    if (!currentUser) return "Carregando...";
+    
+    // Prioridade: first_name + last_name > username > email
+    if (currentUser.first_name || currentUser.last_name) {
+      return `${currentUser.first_name || ''} ${currentUser.last_name || ''}`.trim();
+    }
+    
+    return currentUser.username || currentUser.email || "Usuário";
+  };
+
   return (
     <aside id="sidebar" className={isCollapsed ? "collapsed" : ""}>
       <div className="logo">
@@ -376,7 +388,7 @@ function Sidebar({ onSelectDashboard }) {
       </nav>
 
       <div className="bottom">
-        <div className="user-menu" title="nome.usuario">
+        <div className="user-menu" title={getUserDisplayName()}>
           <a
             href="#"
             className={`user-toggle ${isUserMenuOpen ? "active" : ""}`}
@@ -384,7 +396,7 @@ function Sidebar({ onSelectDashboard }) {
             onClick={handleToggleUserMenu}
           >
             <i className="fas fa-user-tie"></i>
-            <span className="text">nome.usuario</span>
+            <span className="text">{getUserDisplayName()}</span>
             <i className="fas fa-chevron-down dropdown-icon"></i>
           </a>
 
@@ -392,14 +404,18 @@ function Sidebar({ onSelectDashboard }) {
             className={`user-dropdown ${isUserMenuOpen ? "show" : ""}`}
             id="user-dropdown"
           >
-            <a href="/admin/" title="Acessar Portal de Administração do Site">
-              <i className="fa-solid fa-screwdriver-wrench"></i>
-              <span>Portal de Administração</span>
-            </a>
-            <a href="/api/" title="Acessar Portal da API do Site">
-              <i className="fa-solid fa-gears"></i>
-              <span>Portal API</span>
-            </a>
+            {currentUser && currentUser.is_staff && (
+              <>
+                <a href="/admin/" title="Acessar Portal de Administração do Site">
+                  <i className="fa-solid fa-screwdriver-wrench"></i>
+                  <span>Portal de Administração</span>
+                </a>
+                <a href="/api/" title="Acessar Portal da API do Site">
+                  <i className="fa-solid fa-gears"></i>
+                  <span>Portal API</span>
+                </a>
+              </>
+            )}
             <a href="#" title="Fazer Logout" onClick={handleLogout}>
               <i className="fas fa-sign-out-alt"></i>
               <span>Sair</span>

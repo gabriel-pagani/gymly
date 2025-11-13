@@ -1,19 +1,106 @@
-import React, { useState } from "react";
-import "../../styles/home.css";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../../components/Sidebar";
+import Login from "../../pages/Login";
+import "../../styles/home.css";
 
 function Home() {
-  const [selectedUrl, setSelectedUrl] = useState(null);
+  const [selectedDashboard, setSelectedDashboard] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+  const [currentUser, setCurrentUser] = useState(null);
 
+  // Verifica se o usuário está autenticado ao carregar a aplicação
+  useEffect(() => {
+    fetch("/api/users/me/", {
+      credentials: "include",
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Not authenticated");
+        }
+      })
+      .then((userData) => {
+        setIsAuthenticated(true);
+        setCurrentUser(userData);
+      })
+      .catch(() => {
+        setIsAuthenticated(false);
+        setCurrentUser(null);
+      })
+      .finally(() => {
+        setIsCheckingAuth(false);
+      });
+  }, []);
+
+  const handleSelectDashboard = (url) => {
+    setSelectedDashboard(url);
+  };
+
+  const handleLoginSuccess = () => {
+    // Recarrega os dados do usuário após login
+    fetch("/api/users/me/", {
+      credentials: "include",
+    })
+      .then((response) => response.json())
+      .then((userData) => {
+        setIsAuthenticated(true);
+        setCurrentUser(userData);
+      })
+      .catch(() => {
+        setIsAuthenticated(false);
+        setCurrentUser(null);
+      });
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    setCurrentUser(null);
+    setSelectedDashboard(null);
+  };
+
+  // Mostra um loading enquanto verifica autenticação
+  if (isCheckingAuth) {
+    return (
+      <div style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+        fontSize: "20px",
+        color: "#667eea"
+      }}>
+        <i className="fas fa-spinner fa-spin" style={{ marginRight: "10px" }}></i>
+        Carregando...
+      </div>
+    );
+  }
+
+  // Se não estiver autenticado, mostra a tela de login
+  if (!isAuthenticated) {
+    return <Login onLoginSuccess={handleLoginSuccess} />;
+  }
+
+  // Se estiver autenticado, mostra a aplicação normal
   return (
     <>
-      <Sidebar onSelectDashboard={setSelectedUrl} />
-      {selectedUrl ? (
-        <iframe id="dashboard" title="Dashboard" src={selectedUrl}></iframe>
+      <Sidebar 
+        onSelectDashboard={handleSelectDashboard} 
+        onLogout={handleLogout}
+        currentUser={currentUser}
+      />
+      {selectedDashboard ? (
+        <iframe
+          id="dashboard"
+          src={selectedDashboard}
+          title="Dashboard"
+          allowFullScreen
+        />
       ) : (
         <div id="dashboard-placeholder">
-          <h1>Bem Vindo ao Portal de Dashboards!</h1>
-          <p>Selecione os dashboards no painel lateral ao lado</p>
+          <h1>Bem-vindo ao Portal de Dashboards</h1>
+          <p>Selecione um dashboard no menu lateral para visualizar.</p>
         </div>
       )}
     </>
