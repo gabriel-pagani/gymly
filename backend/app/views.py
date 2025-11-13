@@ -1,5 +1,5 @@
 from rest_framework import viewsets
-from rest_framework.permissions import DjangoModelPermissions, IsAuthenticated
+from rest_framework.permissions import DjangoModelPermissions, IsAuthenticated, AllowAny
 from .serializers import UsersSerializer, DashboardsSerializer
 from .models import Users, Dashboards
 from django.db.models import Q
@@ -8,15 +8,37 @@ from rest_framework.response import Response
 from rest_framework import status
 from collections import OrderedDict
 from .utils.metabase import generate_dashboard_url
-from django.contrib.auth import logout
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
+from django.contrib.auth import login, logout, authenticate
 
 
-@login_required
-def logout_view(request):
-    logout(request)
-    return redirect('/')
+class AuthViewSet(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
+
+    @action(detail=False, methods=['post'], permission_classes=[AllowAny])
+    def login(self, request):
+        username = request.data.get('username')
+        password = request.data.get('password')
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return Response(
+                {"message": "Login successful."},
+                status=status.HTTP_200_OK
+            )
+        else:
+            return Response(
+                {"error": "Invalid credentials."},
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+
+    @action(detail=False, methods=['post'], permission_classes=[IsAuthenticated])
+    def logout(self, request):
+        logout(request)
+        return Response(
+            {"message": "Logout successful."},
+            status=status.HTTP_200_OK
+        )
 
 
 class UsersViewSet(viewsets.ModelViewSet):
