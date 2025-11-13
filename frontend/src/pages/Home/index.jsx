@@ -99,8 +99,8 @@ function Home() {
         />
       ) : (
         <div id="dashboard-placeholder">
-          <h1>Bem-vindo ao Portal de Dashboards</h1>
-          <p>Selecione um dashboard no menu lateral para visualizar.</p>
+          <h1>Bem-vindo ao Dashly</h1>
+          <p>Selecione algum dashboard no menu lateral para visualizá-lo</p>
         </div>
       )}
     </>
