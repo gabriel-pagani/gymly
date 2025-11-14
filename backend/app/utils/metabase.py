@@ -1,6 +1,6 @@
 import jwt
 import time
-from project.local_settings import METABASE_SECRET_KEY, METABASE_SITE_URL
+from django.conf import settings
 
 
 token_cache = {}
@@ -18,9 +18,9 @@ def generate_dashboard_url(dashboard_id):
         "exp": round(time.time()) + (60 * 60)
     }
 
-    token = jwt.encode(payload, METABASE_SECRET_KEY, algorithm="HS256")
+    token = jwt.encode(payload, settings.METABASE_SECRET_KEY, algorithm="HS256")
 
-    url = f"{METABASE_SITE_URL}/embed/dashboard/{token}#bordered=true&titled=true"
+    url = f"{settings.METABASE_SITE_URL}/embed/dashboard/{token}#bordered=true&titled=true"
 
     token_cache[dashboard_id] = {
         "url": url,

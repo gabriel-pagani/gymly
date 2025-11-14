@@ -133,6 +133,10 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 AUTH_USER_MODEL = "app.Users"
 
+METABASE_SECRET_KEY = os.getenv('METABASE_SECRET_KEY')
+
+METABASE_SITE_URL = os.getenv('METABASE_SITE_URL')
+
 try:
     from project.local_settings import *
 except ImportError:
