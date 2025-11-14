@@ -6,10 +6,8 @@ services :
       - "5432:5432"
     volumes :
     - ./database:/var/lib/postgresql/data
-    environment :
-    - POSTGRES_DB=postgres
-    - POSTGRES_USER=postgres
-    - POSTGRES_PASSWORD=postgres
+    env_file:
+      - .env
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
@@ -27,11 +25,8 @@ services :
     command: >
       sh -c "python manage.py migrate &&
             python manage.py runserver 0.0.0.0:8000"
-    environment :
-    - DB_HOST=db
-    - DB_NAME=postgres
-    - DB_USER=postgres
-    - DB_PASSWORD=postgres
+    env_file:
+      - .env
     depends_on:
       db:
         condition: service_healthy
