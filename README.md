@@ -1,45 +1,19 @@
-# Installation and Configuration (Linux/Mac)
-### Start
+# Configuration
 ```
-git clone https://github.com/gabriel-pagani/dashly.git
-```
-```
-cd dashly/
-```
-
-### Frontend (React)
-```
-cd frontend/
+git clone https://github.com/gabriel-pagani/dashly.git && cd dashly/
 ```
 ```
-npm install
+make build-system
 ```
 ```
-npm run build
+make start-system
+```
+```
+make create-superuser
 ```
 
-### Backend (Django)
-```
-cd ../backend/
-```
-```
-touch project/local_settings.py
-```
-```
-python3 -m venv venv
-```
-```
-source venv/bin/activate
-```
-```
-pip install -r requirements.txt
-```
-```
-python manage.py migrate
-```
-```
-python manage.py createsuperuser
-```
+# How to Use
+After configuration, access http://localhost:8000
 
 # License
 See the [LICENSE](https://github.com/gabriel-pagani/dashly/blob/main/LICENSE) file for more details.
