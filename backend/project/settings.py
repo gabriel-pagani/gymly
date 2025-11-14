@@ -94,9 +94,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTHENTICATION_BACKENDS = [
-    'django_auth_ldap.backend.LDAPBackend',
     'app.backends.EmailModelBackend',
     'django.contrib.auth.backends.ModelBackend',
+    'django_auth_ldap.backend.LDAPBackend',
 ]
 
 REST_FRAMEWORK = {
