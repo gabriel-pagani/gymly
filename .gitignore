@@ -211,8 +211,5 @@ __marimo__/
 # Wheels
 *.whl
 
-# Makefiles
-**/Makefile
-
 # Sensitive data
 database/
