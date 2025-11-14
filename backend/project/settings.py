@@ -7,9 +7,9 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-3vmbe-wj-x3ln&+e+i0=k7^yk2#q*=7(=*m7*$xfg3o66o07fr'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
-DEBUG = True
+DEBUG = os.getenv('DEBUG') == '1'
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
@@ -131,7 +131,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-AUTH_USER_MODEL = "app.Users"
+AUTH_USER_MODEL = 'app.Users'
 
 METABASE_SECRET_KEY = os.getenv('METABASE_SECRET_KEY')
 
