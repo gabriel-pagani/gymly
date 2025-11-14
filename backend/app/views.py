@@ -21,7 +21,7 @@ class AuthViewSet(viewsets.ViewSet):
 
         if not username or not password:
             return Response(
-                {"error": "Fill in all the fields."},
+                {"error": "Preencha todos os campos."},
                 status=status.HTTP_401_UNAUTHORIZED
             )
 
@@ -30,12 +30,12 @@ class AuthViewSet(viewsets.ViewSet):
         if user is not None:
             login(request, user)
             return Response(
-                {"message": "Login successful."},
+                {"message": "Login efetuado com sucesso."},
                 status=status.HTTP_200_OK
             )
         else:
             return Response(
-                {"error": "Invalid credentials."},
+                {"error": "Credenciais inválidas."},
                 status=status.HTTP_401_UNAUTHORIZED
             )
 
@@ -43,7 +43,7 @@ class AuthViewSet(viewsets.ViewSet):
     def logout(self, request):
         logout(request)
         return Response(
-            {"message": "Logout successful."},
+            {"message": "Logout realizado com sucesso."},
             status=status.HTTP_200_OK
         )
 
