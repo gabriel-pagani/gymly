@@ -11,17 +11,9 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = os.getenv('DEBUG') == '1'
 
-ALLOWED_HOSTS = [
-    '127.0.0.1',
-    'localhost',
-    'dashly.gabriel-pagani.space',
-]
+ALLOWED_HOSTS = []
 
-CSRF_TRUSTED_ORIGINS = [
-    'http://127.0.0.1',
-    'http://localhost',
-    'https://dashly.gabriel-pagani.space',
-]
+CSRF_TRUSTED_ORIGINS = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
