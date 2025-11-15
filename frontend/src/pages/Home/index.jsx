@@ -60,20 +60,10 @@ function Home() {
     setSelectedDashboard(null);
   };
 
-  // Mostra um loading enquanto verifica autenticação
+  // Evita mostrar a tela de login ao atualizar a página
   if (isCheckingAuth) {
     return (
-      <div style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-        fontSize: "20px",
-        color: "#667eea"
-      }}>
-        <i className="fas fa-spinner fa-spin" style={{ marginRight: "10px" }}></i>
-        Carregando...
-      </div>
+      <div></div>
     );
   }
 
