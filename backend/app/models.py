@@ -54,7 +54,6 @@ class Dashboards(models.Model):
     metabase_code = models.IntegerField(blank=True, null=True)
     powerbi_url = models.CharField(blank=True, null=True)
     status = models.CharField(max_length=1, choices=STATUS, default="D")
-    groups = models.ManyToManyField(Group, related_name='dashboards', blank=True)
     fav_by = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='favorited_dashboards', blank=True)
 
     def clean(self):
@@ -119,3 +118,11 @@ class Users(AbstractUser):
     zip_code = models.CharField(max_length=8, blank=True, null=True, validators=[valid_zipcode])
     observations = models.TextField(blank=True, null=True)
     dashboards = models.ManyToManyField(Dashboards, related_name='assigned_users', blank=True)
+
+
+class GroupDashboards(models.Model):
+    group = models.OneToOneField(Group, on_delete=models.CASCADE, related_name='profile', primary_key=True)
+    dashboards = models.ManyToManyField(Dashboards, related_name='assigned_groups', blank=True)
+
+    def __str__(self):
+        return self.group.name

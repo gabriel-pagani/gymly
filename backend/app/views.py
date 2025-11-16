@@ -75,7 +75,7 @@ class DashboardsViewSet(viewsets.ModelViewSet):
         if user.is_superuser or user.has_perm('app.view_all_dashboards'):
             return Dashboards.objects.all().order_by('id')
         return Dashboards.objects.filter(
-            Q(assigned_users=user) | Q(groups__in=user.groups.all())
+            Q(assigned_users=user) | Q(assigned_groups__group__in=user.groups.all())
         ).order_by('id').distinct()
 
     @action(detail=False, methods=['get'])

@@ -12,5 +12,5 @@ class UsersSerializer(serializers.ModelSerializer):
 class DashboardsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Dashboards
-        exclude = ['groups', 'fav_by']
+        exclude = ['fav_by',]
         read_only_fields = ['id']

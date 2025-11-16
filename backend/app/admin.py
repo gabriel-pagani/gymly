@@ -1,9 +1,12 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import Users, Dashboards
+from django.contrib.auth.models import Group
+from django.contrib.auth.admin import GroupAdmin as BaseGroupAdmin
+from .models import Users, Dashboards, GroupDashboards
 
 
+# Users Admin
 @admin.register(Users)
 class UsersAdmin(UserAdmin):
     list_display = ('username', 'email', 'first_name', 'last_name', 'last_login', 'date_joined', 'is_staff', 'is_superuser', 'is_active',)
@@ -46,9 +49,25 @@ class UsersAdmin(UserAdmin):
     )
 
 
+# Groups Admin
+admin.site.unregister(Group)
+class GroupDashboardsInline(admin.StackedInline):
+    model = GroupDashboards
+    can_delete = False
+    verbose_name_plural = 'Dashboards'
+    filter_horizontal = ('dashboards',)
+    fields = ('dashboards',)
+
+class GroupsAdmin(BaseGroupAdmin):
+    inlines = (GroupDashboardsInline,)
+    
+admin.site.register(Group, GroupsAdmin)
+
+
+# Dashboards Admin
 @admin.register(Dashboards)
-class DashboardAdmin(admin.ModelAdmin):
+class DashboardsAdmin(admin.ModelAdmin):
     list_display = ('title', 'sector', 'status')
     search_fields = ('title', 'sector')
-    filter_horizontal = ('groups', 'fav_by',)
-    list_filter = ('status', 'sector', 'groups', 'fav_by')
+    filter_horizontal = ('fav_by',)
+    list_filter = ('status', 'sector', 'fav_by')
