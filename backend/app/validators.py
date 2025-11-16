@@ -37,3 +37,9 @@ def valid_zipcode(value):
 
     if len(value) != 8:
         raise ValidationError('This field must contain exactly 8 digits.')
+    
+def unique_email(value):
+    from .models import Users
+    
+    if value and Users.objects.filter(email=value).exists():
+        raise ValidationError('A user with this email already exists.')

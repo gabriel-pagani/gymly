@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser, Group
 from django.core.exceptions import ValidationError
-from .validators import valid_cpf, valid_phone, valid_zipcode
+from .validators import valid_cpf, valid_phone, valid_zipcode, unique_email
 
 
 class Dashboards(models.Model):
@@ -105,7 +105,7 @@ class Users(AbstractUser):
         ('TO', 'Tocantins'),
     ]
     
-    email = models.EmailField(unique=True, blank=True, null=True)
+    email = models.EmailField(blank=True, null=True, validators=[unique_email])
     cpf = models.CharField(max_length=11, blank=True, null=True, validators=[valid_cpf])
     phone = models.CharField(max_length=11, blank=True, null=True, validators=[valid_phone])
     date_birth = models.DateField(blank=True, null=True)
