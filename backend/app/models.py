@@ -51,7 +51,7 @@ class Dashboards(models.Model):
 
     title = models.CharField(max_length=150, unique=True)
     sector = models.CharField(max_length=150, choices=SECTORS)
-    metabase_code = models.IntegerField(blank=True, null=True)
+    metabase_code = models.PositiveSmallIntegerField(blank=True, null=True)
     powerbi_url = models.CharField(blank=True, null=True)
     status = models.CharField(max_length=1, choices=STATUS, default="D")
     fav_by = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='favorited_dashboards', blank=True)
