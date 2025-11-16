@@ -9,11 +9,11 @@ class UsersAdmin(UserAdmin):
     list_display = ('username', 'email', 'first_name', 'last_name', 'last_login', 'date_joined', 'is_staff', 'is_superuser', 'is_active',)
     search_fields = ('username', 'email', 'first_name', 'last_name', 'observations',)
     list_filter = ('is_active', 'is_staff', 'is_superuser', 'groups',)
-    filter_horizontal = ('groups', 'user_permissions',)
+    filter_horizontal = ('groups', 'user_permissions', 'dashboards',)
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = Users
-    ordering = ('email',)
+    ordering = ('username',)
     fieldsets = (
         (None, {
             'fields': ('username', 'email', 'password',)
@@ -27,7 +27,7 @@ class UsersAdmin(UserAdmin):
             'classes': ('collapse',)
         }),
         ('Permissions', {
-            'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions',), 
+            'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions', 'dashboards',), 
             'classes': ('collapse',)
         }),
         ('Dates', {
@@ -50,5 +50,5 @@ class UsersAdmin(UserAdmin):
 class DashboardAdmin(admin.ModelAdmin):
     list_display = ('title', 'sector', 'status')
     search_fields = ('title', 'sector')
-    filter_horizontal = ('users', 'groups', 'fav_by')
-    list_filter = ('status', 'sector', 'groups', 'users', 'fav_by')
+    filter_horizontal = ('groups', 'fav_by',)
+    list_filter = ('status', 'sector', 'groups', 'fav_by')
