@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser, Group
 from django.core.exceptions import ValidationError
-from .validators import valid_cpf, valid_phone, valid_zipcode, unique_email
+from .validators import valid_cpf, valid_phone, valid_zipcode, unique_email, valid_url
 
 
 class Dashboards(models.Model):
@@ -52,7 +52,7 @@ class Dashboards(models.Model):
     title = models.CharField(max_length=150, unique=True)
     sector = models.CharField(max_length=150, choices=SECTORS)
     metabase_code = models.PositiveSmallIntegerField(blank=True, null=True)
-    powerbi_url = models.CharField(blank=True, null=True)
+    powerbi_url = models.CharField(blank=True, null=True, validators=[valid_url])
     status = models.CharField(max_length=1, choices=STATUS, default="D")
     fav_by = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='favorited_dashboards', blank=True)
 

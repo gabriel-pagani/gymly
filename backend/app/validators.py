@@ -43,3 +43,7 @@ def unique_email(value):
     
     if value and Users.objects.filter(email=value).exists():
         raise ValidationError('A user with this email already exists.')
+
+def valid_url(value):
+    if value and not value.startswith('https://app.powerbi.com/'):
+        raise ValidationError('Enter a valid Power BI url.')
