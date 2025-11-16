@@ -123,7 +123,7 @@ class DashboardsViewSet(viewsets.ModelViewSet):
 
         return Response(sectors)
 
-    @action(detail=True, methods=['post'], url_path='favorite')
+    @action(detail=True, methods=['post'], url_path='favorite', permission_classes=[IsAuthenticated])
     def favorite(self, request, pk=None):
         user = request.user
 
