@@ -51,6 +51,13 @@ class UsersAdmin(UserAdmin):
 
 # Groups Admin
 admin.site.unregister(Group)
+class GroupProxy(Group):
+    class Meta:
+        proxy = True
+        verbose_name = Group._meta.verbose_name
+        verbose_name_plural = Group._meta.verbose_name_plural
+        app_label = 'app'
+
 class GroupDashboardsInline(admin.StackedInline):
     model = GroupDashboards
     can_delete = False
@@ -58,10 +65,9 @@ class GroupDashboardsInline(admin.StackedInline):
     filter_horizontal = ('dashboards',)
     fields = ('dashboards',)
 
+@admin.register(GroupProxy)
 class GroupsAdmin(BaseGroupAdmin):
     inlines = (GroupDashboardsInline,)
-    
-admin.site.register(Group, GroupsAdmin)
 
 
 # Dashboards Admin
