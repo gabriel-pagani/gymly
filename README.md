@@ -13,7 +13,7 @@ make create-superuser
 ```
 
 # How to Use
-After configuration, access http://localhost:8000
+After configuration, access http://127.0.0.1:8000
 
 # License
 See the [LICENSE](https://github.com/gabriel-pagani/dashly/blob/main/LICENSE) file for more details.
