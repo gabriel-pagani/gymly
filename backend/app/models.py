@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser, Group
 from django.core.exceptions import ValidationError
-from .validators import valid_cpf, valid_phone, valid_zipcode, unique_email, valid_url
+from .validators import valid_cpf, valid_phone, valid_zipcode, valid_url
 
 
 class Dashboards(models.Model):
@@ -105,7 +105,7 @@ class Users(AbstractUser):
         ('TO', 'Tocantins'),
     ]
     
-    email = models.EmailField(blank=True, null=True, validators=[unique_email])
+    email = models.EmailField(blank=True, null=True)
     cpf = models.CharField(max_length=11, blank=True, null=True, validators=[valid_cpf])
     phone = models.CharField(max_length=11, blank=True, null=True, validators=[valid_phone])
     date_birth = models.DateField(blank=True, null=True)
@@ -119,6 +119,12 @@ class Users(AbstractUser):
     observations = models.TextField(blank=True, null=True)
     dashboards = models.ManyToManyField(Dashboards, related_name='assigned_users', blank=True)
 
+    def clean(self):
+        super().clean()
+        if self.email:
+            email = Users.objects.filter(email=self.email).exclude(pk=self.pk)
+            if email.exists():
+                raise ValidationError({'email': 'A user with this email already exists.'})
 
 class GroupDashboards(models.Model):
     group = models.OneToOneField(Group, on_delete=models.CASCADE, related_name='profile', primary_key=True)
