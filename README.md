@@ -9,7 +9,7 @@ make build-system
 make start-system
 ```
 ```
-make create-superuser
+make container-terminal python manage.py createsuperuser
 ```
 
 # How to Use
