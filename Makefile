@@ -23,5 +23,7 @@ restart-system:
 	@echo ""
 	@echo "Restarting the system in http://127.0.0.1:8000/"
 
-create-superuser:
-	docker exec -it app python manage.py createsuperuser
+container-terminal:
+	docker compose exec app $(filter-out $@,$(MAKECMDGOALS))
+%:
+	@:
