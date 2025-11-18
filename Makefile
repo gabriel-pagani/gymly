@@ -18,7 +18,6 @@ restart-system:
 	docker compose down && \
 	docker compose up -d
 
-backend-terminal:
-	docker compose exec backend $(filter-out $@,$(MAKECMDGOALS))
-%:
-	@:
+container ?= backend
+container-terminal:
+	docker compose exec $(container) sh
