@@ -1,6 +1,6 @@
 import jwt
 import time
-from backend.project import local_settings
+from project import local_settings
 
 
 token_cache = {}
