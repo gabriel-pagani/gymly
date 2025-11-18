@@ -10,8 +10,6 @@ clean-project:
 
 start-system:
 	docker compose up -d
-	@echo ""
-	@echo "Starting the system in http://127.0.0.1:8000/"
 
 stop-system:
 	docker compose down
@@ -19,8 +17,6 @@ stop-system:
 restart-system:
 	docker compose down && \
 	docker compose up -d
-	@echo ""
-	@echo "Restarting the system in http://127.0.0.1:8000/"
 
 backend-terminal:
 	docker compose exec backend $(filter-out $@,$(MAKECMDGOALS))
