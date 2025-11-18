@@ -5,7 +5,7 @@ build-project:
 
 clean-project:
 	docker system prune -a --volumes --force && \
-    rm -rf database frontend/node_modules backend/build
+    rm -rf database  frontend/node_modules/ backend/build/
 
 start-system:
 	docker compose up -d
