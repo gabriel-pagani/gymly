@@ -43,5 +43,14 @@ services:
       - network
     restart: unless-stopped
 
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    restart: unless-stopped
+
 networks:
   network:
