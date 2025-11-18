@@ -23,7 +23,7 @@ restart-system:
 	@echo ""
 	@echo "Restarting the system in http://127.0.0.1:8000/"
 
-container-terminal:
-	docker compose exec app $(filter-out $@,$(MAKECMDGOALS))
+backend-terminal:
+	docker compose exec backend $(filter-out $@,$(MAKECMDGOALS))
 %:
 	@:
