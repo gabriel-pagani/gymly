@@ -11,9 +11,9 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = os.getenv('DEBUG') == '1'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
 
-CSRF_TRUSTED_ORIGINS = []
+CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS').split(',')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -126,10 +126,6 @@ CORS_ORIGIN_ALLOW_ALL = True
 X_FRAME_OPTIONS = 'ALLOWALL'
 
 AUTH_USER_MODEL = 'app.Users'
-
-METABASE_SECRET_KEY = os.getenv('METABASE_SECRET_KEY')
-
-METABASE_SITE_URL = os.getenv('METABASE_SITE_URL')
 
 try:
     from project.local_settings import *
