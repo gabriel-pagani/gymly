@@ -1,13 +1,11 @@
-build-system:
+build-project:
 	touch .env backend/project/local_settings.py && \
 	cd frontend/ && npm install && npm run build && \
-	docker compose pull db && \
-	docker compose build
+	docker compose up -d --build
 
-delete-system:
-	docker compose down && \
-    docker system prune -a --volumes --force && \
-    rm -rf database
+clean-project:
+	docker system prune -a --volumes --force && \
+    rm -rf database frontend/node_modules backend/build
 
 start-system:
 	docker compose up -d
