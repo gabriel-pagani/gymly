@@ -3,13 +3,10 @@
 git clone https://github.com/gabriel-pagani/dashly.git && cd dashly/
 ```
 ```
-make build-system
+make build-project
 ```
 ```
-make start-system
-```
-```
-make container-terminal python manage.py createsuperuser
+make backend-terminal python manage.py createsuperuser
 ```
 
 # How to Use
