@@ -107,7 +107,6 @@ USE_I18N = True
 USE_TZ = True
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'build/static',
     BASE_DIR / 'build',
 ]
 
