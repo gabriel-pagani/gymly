@@ -1,6 +1,6 @@
 name: dashly
 
-services :
+services:
   database:
     image: postgres:18
     container_name: database
