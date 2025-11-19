@@ -8,7 +8,7 @@ Sistema de gerenciamento de dashboards integrado com Power BI e Metabase
 git clone https://github.com/gabriel-pagani/dashly.git && cd dashly/
 ```
 #### 2. Configure as variáveis de ambiente:
-Crie um arquivo .env na raiz do projeto (baseado no [.env.example](https://github.com/gabriel-pagani/dashly/blob/main/Makefile)) e configure as credenciais do banco de dados e do Django.
+Crie um arquivo .env na raiz do projeto (baseado no [.env.example](https://github.com/gabriel-pagani/dashly/blob/main/.env.example)) e configure as credenciais do banco e do Django.
 ```bash
 cp .env.example .env
 ```
