@@ -1,5 +1,6 @@
 build-project:
-	touch .env backend/project/local_settings.py && \
+	cp .env.example .env && \
+	touch backend/project/local_settings.py && \
 	cd frontend/ && npm install && npm run build && \
 	docker compose up -d --build
 
