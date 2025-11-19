@@ -26,7 +26,7 @@ POSTGRES_PORT="5432"
 ```
 
 #### 3. Build e Start inicial:
-Execulte o comando de build para instalar as dependências, compilar o React e subir os containers.
+Execute o comando de build para instalar as dependências, compilar o React e subir os containers.
 ```bash
 make build-project
 ```
