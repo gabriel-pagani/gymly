@@ -120,6 +120,12 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 AUTH_USER_MODEL = 'app.Users'
 
+SESSION_COOKIE_AGE = 60 * 60 * 6
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+SESSION_SAVE_EVERY_REQUEST = True
+
 try:
     from project.local_settings import *
 except ImportError:
