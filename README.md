@@ -32,7 +32,7 @@ make build-project
 ```
 
 #### 4. Crie um super usuário (Admin):
-Para acessar o sistema pela primeira vez, você precisa criar um superusuário.
+Para acessar o sistema pela primeira vez, você precisa criar um super usuário.
 ```bash
 make container-terminal
 # Dentro do container:
