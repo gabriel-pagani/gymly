@@ -1,17 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { getCookie } from "../../helpers/getCookie";
-import "../../styles/login.css"; // Importa o CSS atualizado
+import "../../styles/login.css";
 
 function Login({ onLoginSuccess }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('logout') === 'true') {
+      setSuccessMessage("Você se desconectou com sucesso");
+      window.history.replaceState({}, document.title, "/");
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setSuccessMessage("");
     setIsLoading(true);
 
     const csrftoken = getCookie("csrftoken");
@@ -51,6 +61,13 @@ function Login({ onLoginSuccess }) {
     <div className="login-wrapper">
       <div className="container" id="tela-login">
         <h2>Dashly</h2>
+
+        {successMessage && (
+          <div className="mensagem sucesso">
+            <i className="fas fa-circle-check"></i>
+            <span>{successMessage}</span>
+          </div>
+        )}
 
         {error && (
           <div className="mensagem erro">

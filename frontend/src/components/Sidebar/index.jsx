@@ -79,7 +79,7 @@ function Sidebar({ onSelectDashboard, currentUser }) {
     })
       .then((response) => {
         if (response.ok) {
-          window.location.href = '/';
+          window.location.href = '/?logout=true';
         } else {
           console.error('Erro ao fazer logout');
         }
@@ -335,7 +335,7 @@ function Sidebar({ onSelectDashboard, currentUser }) {
                     {dashboards.map((dashboard) => (
                       <li key={dashboard.id} data-id={dashboard.id}>
                         <a
-                          href="#"
+                          href=""
                           className={`dashboard-link ${
                             dashboard.id === activeDashboardId ? "active" : ""
                           }`}
@@ -390,7 +390,7 @@ function Sidebar({ onSelectDashboard, currentUser }) {
       <div className="bottom">
         <div className="user-menu" title={getUserDisplayName()}>
           <a
-            href="#"
+            href=""
             className={`user-toggle ${isUserMenuOpen ? "active" : ""}`}
             id="user-toggle"
             onClick={handleToggleUserMenu}
@@ -416,7 +416,7 @@ function Sidebar({ onSelectDashboard, currentUser }) {
                 </a>
               </>
             )}
-            <a href="#" title="Fazer Logout" onClick={handleLogout}>
+            <a href="" title="Fazer Logout" onClick={handleLogout}>
               <i className="fas fa-sign-out-alt"></i>
               <span>Sair</span>
             </a>
