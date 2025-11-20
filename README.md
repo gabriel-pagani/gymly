@@ -42,6 +42,12 @@ python manage.py createsuperuser
 ## 🛠️ Comandos de Manutenção
 O projeto utiliza um [Makefile](https://github.com/gabriel-pagani/dashly/blob/main/Makefile) para simplificar as operações diárias.
 
+## ⭐ Comandos Úteis
+Gerar senhas fortes.
+```bash
+python3 -c "import string, secrets; print(''.join(secrets.choice(string.ascii_letters + string.digits) for _ in range(64)))"
+```
+
 # License
 See the [LICENSE](https://github.com/gabriel-pagani/dashly/blob/main/LICENSE) file for more details.
 
