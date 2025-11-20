@@ -24,7 +24,7 @@ POSTGRES_PASSWORD="CHANGE-ME"
 POSTGRES_HOST="database"
 POSTGRES_PORT="5432"
 ```
-Crie também o arquivo local_settings.py na project do backend e configure as credenciais do Metabase e do LDAP.
+Crie também o arquivo local_settings.py na pasta project do backend e configure as credenciais do Metabase e do LDAP.
 ```bash
 touch backend/project/local_settings.py
 ```
