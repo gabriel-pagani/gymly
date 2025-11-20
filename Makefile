@@ -1,6 +1,4 @@
 build-project:
-	cp --update=none .env.example .env && \
-	touch backend/project/local_settings.py && \
 	cd frontend/ && npm install && npm run build && \
 	docker compose up -d --build
 
