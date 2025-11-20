@@ -24,6 +24,15 @@ POSTGRES_PASSWORD="CHANGE-ME"
 POSTGRES_HOST="database"
 POSTGRES_PORT="5432"
 ```
+Crie também o arquivo local_settings.py na project do backend e configure as credenciais do Metabase e do LDAP.
+```bash
+touch backend/project/local_settings.py
+```
+```bash
+# Conteúdo mínimo para o local_settings.py
+METABASE_SITE_URL=""
+METABASE_SECRET_KEY=""
+```
 
 #### 3. Build e Start inicial:
 Execute o comando de build para instalar as dependências, compilar o React e subir os containers.
@@ -45,7 +54,7 @@ O projeto utiliza um [Makefile](https://github.com/gabriel-pagani/dashly/blob/ma
 ## ⭐ Comandos Úteis
 Gerar senhas fortes.
 ```bash
-python3 -c "import string, secrets; print(''.join(secrets.choice(string.ascii_letters + string.digits) for _ in range(64)))"
+python3 -c "import string, secrets; print(''.join(secrets.choice(string.ascii_letters + string.digits) for _ in range(50)))"
 ```
 
 # License
