@@ -20,3 +20,6 @@ restart-system:
 container ?= backend
 container-terminal:
 	docker compose exec $(container) sh
+
+logs:
+	docker compose logs -f $(container)
