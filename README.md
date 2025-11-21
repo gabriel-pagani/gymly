@@ -1,4 +1,4 @@
-# Dashly - Dashboard Management System
+# Dashly
 Sistema de gerenciamento de dashboards integrado com Power BI e Metabase
 
 ## 🚀 Instalação e Configuração Inicial
@@ -57,8 +57,8 @@ Gerar senhas fortes.
 python3 -c "import string, secrets; print(''.join(secrets.choice(string.ascii_letters + string.digits) for _ in range(50)))"
 ```
 
-# License
+# Licença
 See the [LICENSE](https://github.com/gabriel-pagani/dashly/blob/main/LICENSE) file for more details.
 
-# Contact Information
+# Informação para Contato
 Email: gabrielpaganidesouza@gmail.com
