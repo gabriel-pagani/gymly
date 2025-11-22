@@ -23,7 +23,7 @@ list-images:
 list-containers:
 	docker ps -a
 
-container ?= backend
+container ?= app
 container-terminal:
 	docker compose exec $(container) sh
 
