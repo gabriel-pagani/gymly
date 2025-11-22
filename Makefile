@@ -17,9 +17,15 @@ restart-system:
 	docker compose down && \
 	docker compose up -d
 
+list-images:
+	docker images
+
+list-containers:
+	docker ps -a
+
 container ?= backend
 container-terminal:
 	docker compose exec $(container) sh
 
-logs:
+container-logs:
 	docker compose logs -f $(container)
